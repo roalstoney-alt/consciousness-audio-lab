@@ -1,82 +1,91 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>SpringOfZen - Threshold</title>
+  <title>Spring of Zen - The light is still on</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A threshold space with quiet doors for listening, looking, study, craft, and return.">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/home.css">
-  <link rel="stylesheet" href="assets/css/threshold-space.css">
+  <meta name="description" content="A quiet room for those tired of the scroll. Sit. Breathe. Stay as long as you need.">
+  <meta property="og:title" content="Spring of Zen">
+  <meta property="og:description" content="A quiet room for those tired of the scroll.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
-<body data-page="home">
-  <div class="threshold-shell">
-    <div class="threshold-world" aria-hidden="true">
-      <video class="threshold-video" src="output_10min_smooth.mp4" autoplay muted loop playsinline></video>
-      <div class="threshold-lake"></div>
-      <div class="threshold-inn"></div>
-      <div class="threshold-lamp"></div>
-      <div class="threshold-window"></div>
-      <div class="threshold-mist"></div>
-      <div class="threshold-grain"></div>
-    </div>
+<body>
+  <header class="top-chrome" aria-label="Room controls">
+    <a href="index.html" class="quiet-brand">spring of zen</a>
+    <button id="roomToneToggle" class="tone-toggle" type="button" aria-pressed="false">room tone</button>
+  </header>
 
-    <header class="site-header threshold-nav">
-      <a class="threshold-logo" href="index.html">SpringOfZen</a>
-      <nav class="threshold-links" aria-label="Quiet paths">
-        <a href="sessions.html">Sound</a>
-        <a href="observatory.html">Observatory</a>
-        <a href="journal.html">Journal</a>
-      </nav>
-    </header>
+  <main>
+    <section class="arrival-room section-full" aria-labelledby="arrivalTitle">
+      <div class="mist-layer" aria-hidden="true"></div>
+      <div class="grain-layer" aria-hidden="true"></div>
+      <div class="lamp-glow" aria-hidden="true"></div>
+      <div class="arrival-copy">
+        <p id="greeting" class="greeting">The light is still on.</p>
+        <h1 id="arrivalTitle">put the phone down,<br>for a little while.</h1>
+      </div>
+      <a class="scroll-slowly" href="#letter" aria-label="Scroll slowly to the letter">
+        <span aria-hidden="true"></span>
+        scroll, slowly
+      </a>
+    </section>
 
-    <main class="threshold-main">
-      <section id="threshold" class="threshold-screen" aria-labelledby="thresholdWhisper">
-        <p id="thresholdWhisper" class="threshold-whisper">No need to explain why you came.</p>
-        <div class="threshold-doors" data-threshold-doors aria-label="Choose a door"></div>
-        <button id="soundBtn" class="roomtone-button" type="button" aria-pressed="false">Listen to the room</button>
-      </section>
+    <section id="letter" class="letter-section" aria-labelledby="letterTitle">
+      <h2 id="letterTitle" class="sr-only">The letter</h2>
+      <div class="letter-column">
+        <p data-reveal>You don't have to scroll here.</p>
+        <p data-reveal>There is no feed. No next video. Nothing is loading beneath this page, waiting to catch your thumb.</p>
+        <p data-reveal>Only a lamp, a table, and the sound of your own breath if you let it in.</p>
+        <p data-reveal>Stay as long as you need.<br>Leave when you are ready.</p>
+      </div>
+    </section>
 
-      <section id="observation" class="threshold-page observation-leaf" aria-labelledby="observationTitle">
-        <p class="page-kicker">One sentence</p>
-        <blockquote id="observationTitle">
-          AI can give us time.<br><br>
-          But it cannot tell us<br>
-          what to do with the silence.
-        </blockquote>
-      </section>
+    <section class="night-dock section-full" aria-labelledby="dockTitle">
+      <div class="dock-veil" aria-hidden="true"></div>
+      <div class="dock-copy" data-reveal>
+        <h2 id="dockTitle">Somewhere a small dock,<br>a single light,<br>water moving without hurry.</h2>
+        <p>This is what the inside of your chest can feel like, if you give it a few minutes.</p>
+        <button class="text-tone-link" type="button" data-tone-link>turn on the room tone</button>
+      </div>
+    </section>
 
-      <section id="harbor-note" class="threshold-page desk-note" aria-labelledby="noteTitle">
-        <div class="note-card-surface">
-          <h2 id="noteTitle">Leave a note for the room.</h2>
-          <p>A few words are enough.</p>
-          <form id="harborNoteForm" class="minimal-paper-form" data-harbor-note>
-            <label>
-              <span>What did this place feel like?</span>
-              <input name="first_impression" type="text" placeholder="One word..." class="line-input">
-            </label>
-            <fieldset class="return-field">
-              <legend>Would you return?</legend>
-              <input type="radio" id="ret-yes" name="would_return" value="yes">
-              <label for="ret-yes">Yes</label>
-              <input type="radio" id="ret-no" name="would_return" value="no">
-              <label for="ret-no">No</label>
-            </fieldset>
-            <label>
-              <span>What should become quieter, warmer, or more alive?</span>
-              <textarea name="what_should_change" placeholder="Write freely..." class="line-textarea"></textarea>
-            </label>
-            <button type="submit" class="paper-submit">Leave Note</button>
-            <p class="form-status" aria-live="polite"></p>
-          </form>
-        </div>
-      </section>
-    </main>
-  </div>
+    <section class="breathing-section section-full" aria-labelledby="breathingTitle">
+      <div class="breathing-wrap" data-reveal>
+        <div class="breathing-circle" aria-hidden="true"></div>
+        <h2 id="breathingTitle" data-breathing-text>breathe in</h2>
+        <p>six seconds, one cycle</p>
+      </div>
+    </section>
 
-  <script src="assets/js/supabase-client.js"></script>
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/tracking.js"></script>
-  <script src="assets/js/threshold-space.js"></script>
+    <section class="thought-section section-full" aria-labelledby="thoughtTitle">
+      <blockquote id="thoughtTitle" data-reveal>
+        AI can give us back our time.<br>
+        But it cannot tell us what to do<br>
+        with the silence it returns.
+      </blockquote>
+      <span class="amber-line" aria-hidden="true"></span>
+    </section>
+
+    <section class="one-word-section section-full" aria-labelledby="wordTitle">
+      <div class="word-veil" aria-hidden="true"></div>
+      <div class="word-panel" data-one-word-panel data-reveal>
+        <h2 id="wordTitle">Before you go,<br>leave one word for the room.</h2>
+        <form id="oneWordForm" class="one-word-form">
+          <label class="sr-only" for="oneWordInput">One word for the room</label>
+          <input id="oneWordInput" name="word" maxlength="28" autocomplete="off" placeholder="quiet">
+          <p>press enter to leave it on the table</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="door-footer">
+    <p>The lamp stays on tonight.<br>Come back whenever the world is too loud.</p>
+    <p>spring of zen · a human harbor</p>
+  </footer>
+
+  <audio id="roomTone" loop preload="none" src="assets/audio/harbor-roomtone.mp3"></audio>
+  <script src="assets/js/v52-index.js"></script>
 </body>
 </html>
