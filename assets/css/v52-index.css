@@ -652,6 +652,10 @@ h1 {
   gap: 16px;
   align-items: center;
 }
+.lamp-actions a,
+.lamp-actions button {
+  flex: 0 0 auto;
+}
 .lamp-actions a {
   color: rgba(238, 230, 214, 0.72);
   text-decoration: none;
@@ -660,26 +664,10 @@ h1 {
 .lamp-actions .text-tone-link {
   margin-top: 0;
   font-size: 16px;
+  line-height: 1.4;
 }
 .lamp-actions a:hover {
   color: var(--ivory);
-}
-.lamp-next {
-  padding-top: clamp(18px, 3vh, 28px);
-}
-.lamp-next a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  color: rgba(238, 230, 214, 0.76);
-  font-size: 15px;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(216, 168, 96, 0.42);
-}
-.lamp-next a:hover {
-  color: var(--ivory);
-  border-color: rgba(216, 168, 96, 0.86);
 }
 .recorded-note {
   position: fixed;

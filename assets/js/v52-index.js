@@ -243,13 +243,15 @@ function initSharedLanguageSwitch() {
 
 function formatLampDate(dateString, lang) {
   if (!dateString) return "";
-  const date = new Date(`${dateString}T00:00:00`);
-  if (Number.isNaN(date.getTime())) return dateString;
-  return date.toLocaleDateString(lang === "zh" ? "zh-Hant-TW" : "en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+  const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return dateString;
+  const [, year, month, day] = match;
+  if (lang === "zh") return `${year}年${Number(month)}月${Number(day)}日`;
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return `${months[Number(month) - 1]} ${Number(day)}, ${year}`;
 }
 
 let currentLampData = {
