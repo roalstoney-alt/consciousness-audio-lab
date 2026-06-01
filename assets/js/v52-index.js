@@ -143,8 +143,8 @@ const sharedI18n = {
     listenRetry: "Try again",
     watchLive: "Watch live →",
     watchLiveTitle: "Live window",
-    liveModalNote: "If the live window does not load, the source may block embedding.",
-    openLiveSource: "Open original source →",
+    liveModalNote: "This window uses the uploaded daily recording.",
+    openLiveSource: "Open source reference →",
     recordedNote: "This is not a live stream. A carefully selected recording from somewhere in the world.",
     harborKicker: "The Harbor",
     harborTitle: "Somewhere a small dock,<br>a single light,<br>water moving without hurry.",
@@ -181,8 +181,8 @@ const sharedI18n = {
     listenRetry: "再試一次",
     watchLive: "觀看直播 →",
     watchLiveTitle: "直播窗口",
-    liveModalNote: "如果直播窗口無法載入，來源網站可能不允許嵌入。",
-    openLiveSource: "打開原始來源 →",
+    liveModalNote: "這個窗口播放今日上傳的錄像。",
+    openLiveSource: "打開來源參考 →",
     recordedNote: "這不是直播。這是一段來自世界某處、被細心挑選的錄像。",
     harborKicker: "港灣",
     harborTitle: "某處有一座小碼頭，<br>一盞燈，<br>水不著急地流動。",
@@ -255,21 +255,24 @@ let currentLampData = {
 
 function openLampLive() {
   const liveModal = document.querySelector("[data-live-modal]");
-  const liveFrame = document.querySelector("[data-live-frame]");
-  if (!liveModal || !liveFrame) return;
-  liveFrame.src = currentLampData.live_url;
+  const liveVideo = document.querySelector("[data-live-video]");
+  if (!liveModal || !liveVideo || !currentLampData.video) return;
+  if (liveVideo.src !== currentLampData.video) liveVideo.src = currentLampData.video;
   liveModal.hidden = false;
+  liveVideo.play().catch(() => {});
 }
 
 function closeLampLive() {
   const liveModal = document.querySelector("[data-live-modal]");
-  const liveFrame = document.querySelector("[data-live-frame]");
+  const liveVideo = document.querySelector("[data-live-video]");
   if (liveModal) liveModal.hidden = true;
-  if (liveFrame) liveFrame.src = "";
+  if (liveVideo) liveVideo.pause();
 }
 
 window.openLampLive = openLampLive;
 window.closeLampLive = closeLampLive;
+globalThis.openLampLive = openLampLive;
+globalThis.closeLampLive = closeLampLive;
 
 async function initEarthLamp() {
   const page = document.querySelector("[data-lamp-page]");
@@ -296,7 +299,7 @@ async function initEarthLamp() {
   const date = document.querySelector("[data-lamp-date]");
   const quote = document.querySelector("[data-lamp-quote]");
   const live = document.querySelector("[data-lamp-live]");
-  const liveFrame = document.querySelector("[data-live-frame]");
+  const liveVideo = document.querySelector("[data-live-video]");
   const liveSource = document.querySelector("[data-live-source]");
   const video = document.querySelector("[data-lamp-video]");
   const frame = document.querySelector(".lamp-video-window");
@@ -305,6 +308,8 @@ async function initEarthLamp() {
   if (date) date.textContent = formatLampDate(data.date, getSharedLang());
   if (quote) quote.textContent = data.quote;
   if (liveSource) liveSource.href = data.live_url;
+  if (liveVideo && data.poster) liveVideo.setAttribute("poster", data.poster);
+  if (liveVideo && data.video) liveVideo.src = data.video;
   if (video && data.poster) video.setAttribute("poster", data.poster);
   if (video && data.video) {
     video.src = data.video;

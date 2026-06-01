@@ -596,6 +596,10 @@ h1 {
 .lamp-video-window.has-video video {
   opacity: 1;
 }
+.lamp-video-window.has-video .lamp-visual-fallback {
+  opacity: 0;
+  pointer-events: none;
+}
 .lamp-visual-fallback {
   position: absolute;
   inset: 0;
@@ -697,6 +701,10 @@ h1 {
   background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(14px);
 }
+.live-modal[hidden],
+.recorded-note[hidden] {
+  display: none !important;
+}
 .live-modal-panel {
   position: relative;
   width: min(1040px, 100%);
@@ -729,12 +737,13 @@ h1 {
     url("../img/harbor-view.webp") center / cover no-repeat,
     #080808;
 }
-.live-frame-wrap iframe {
+.live-frame-wrap video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
+  object-fit: cover;
   background: #080808;
 }
 .live-modal-note {
