@@ -78,6 +78,9 @@ a { color: inherit; }
   color: var(--ivory);
   background: rgba(216, 168, 96, 0.16);
 }
+.part-page .lang-switch {
+  top: 54px;
+}
 .part-nav {
   display: flex;
   flex-wrap: wrap;
@@ -484,6 +487,275 @@ h1 {
   font-size: clamp(17px, 2vw, 22px);
   line-height: 1.65;
 }
+.lamp-earth-page {
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(216, 168, 96, 0.12), transparent 24rem),
+    linear-gradient(180deg, #050505, #0c0d10 48%, #050505);
+}
+.lamp-top {
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.72), transparent);
+}
+.recorded-chip {
+  pointer-events: auto;
+  border: 0;
+  background: transparent;
+  color: rgba(238, 230, 214, 0.5);
+  padding: 0;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.recorded-chip:hover {
+  color: var(--ivory);
+}
+.earth-lamp {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: clamp(82px, 12vh, 130px) clamp(18px, 5vw, 68px) clamp(38px, 7vh, 78px);
+}
+.lamp-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-content: center;
+  gap: 18px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(216, 168, 96, 0.14), transparent 24rem),
+    #050505;
+  text-align: center;
+  transition: opacity 1200ms ease, visibility 1200ms ease;
+}
+.lamp-intro.is-faded {
+  opacity: 0;
+  visibility: hidden;
+}
+.lamp-intro h1 {
+  max-width: 860px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 7vw, 96px);
+  font-weight: 400;
+  line-height: 1.04;
+}
+.lamp-intro p:not(.part-kicker) {
+  margin: 0;
+  color: rgba(238, 230, 214, 0.66);
+  font-size: clamp(18px, 2vw, 24px);
+}
+.earth-window {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(18px, 4vh, 34px);
+}
+.earth-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+}
+.earth-info h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 6vw, 84px);
+  font-weight: 400;
+  line-height: 1.02;
+}
+.recorded-date {
+  margin: 0 0 8px;
+  color: rgba(238, 230, 214, 0.58);
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: right;
+  text-transform: lowercase;
+}
+.lamp-video-window {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(238, 230, 214, 0.13);
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.08), rgba(5, 5, 5, 0.32)),
+    url("../img/still-water.webp") center / cover no-repeat,
+    #111;
+  box-shadow: 0 28px 88px rgba(0, 0, 0, 0.46);
+}
+.lamp-video-window video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.lamp-video-window.has-video video {
+  opacity: 1;
+}
+.lamp-visual-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.08), rgba(5, 5, 5, 0.42)),
+    url("../img/still-water.webp") center / cover no-repeat;
+  transform: scale(1.04);
+  animation: earthWindowDrift 24s ease-in-out infinite alternate;
+}
+.lamp-visual-fallback span {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: 42%;
+  height: 28%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 228, 165, 0.18), transparent 62%);
+  filter: blur(12px);
+  transform: translate(-50%, -50%);
+  animation: lampWindowGlow 12s ease-in-out infinite;
+}
+.lamp-visual-fallback span:nth-child(2) {
+  left: 62%;
+  top: 62%;
+  width: 65%;
+  height: 26%;
+  background: radial-gradient(ellipse, rgba(154, 164, 184, 0.14), transparent 68%);
+  animation-delay: -3s;
+}
+.lamp-visual-fallback span:nth-child(3) {
+  left: 32%;
+  top: 68%;
+  width: 38%;
+  height: 20%;
+  background: radial-gradient(ellipse, rgba(216, 168, 96, 0.12), transparent 64%);
+  animation-delay: -6s;
+}
+.lamp-quote {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(238, 230, 214, 0.78);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 3.8vw, 48px);
+  font-style: italic;
+  line-height: 1.22;
+}
+.lamp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+.lamp-actions a {
+  color: rgba(238, 230, 214, 0.72);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(238, 230, 214, 0.34);
+}
+.lamp-actions .text-tone-link {
+  margin-top: 0;
+  font-size: 16px;
+}
+.lamp-actions a:hover {
+  color: var(--ivory);
+}
+.recorded-note {
+  position: fixed;
+  top: 62px;
+  right: clamp(16px, 4vw, 52px);
+  z-index: 80;
+  width: min(320px, calc(100% - 32px));
+  padding: 18px 42px 18px 18px;
+  border: 1px solid rgba(238, 230, 214, 0.14);
+  background: rgba(5, 5, 5, 0.82);
+  color: rgba(238, 230, 214, 0.78);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+}
+.recorded-note p {
+  margin: 0;
+  line-height: 1.55;
+}
+.recorded-note button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  color: rgba(238, 230, 214, 0.62);
+  font-size: 22px;
+  cursor: pointer;
+}
+.live-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 48px);
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(14px);
+}
+.live-modal-panel {
+  position: relative;
+  width: min(1040px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid rgba(238, 230, 214, 0.14);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(216, 168, 96, 0.12), transparent 22rem),
+    rgba(5, 5, 5, 0.92);
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.58);
+}
+.live-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: rgba(238, 230, 214, 0.66);
+  font-size: 28px;
+  cursor: pointer;
+}
+.live-frame-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(238, 230, 214, 0.12);
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.08), rgba(5, 5, 5, 0.42)),
+    url("../img/harbor-view.webp") center / cover no-repeat,
+    #080808;
+}
+.live-frame-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #080808;
+}
+.live-modal-note {
+  margin: 0;
+  color: rgba(238, 230, 214, 0.58);
+  line-height: 1.55;
+}
+.live-modal a {
+  justify-self: start;
+  color: rgba(238, 230, 214, 0.72);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(238, 230, 214, 0.34);
+}
+@keyframes earthWindowDrift {
+  0% { transform: scale(1.04) translate3d(0, 0, 0); filter: saturate(0.92); }
+  100% { transform: scale(1.12) translate3d(-1.5%, -1%, 0); filter: saturate(1.08); }
+}
+@keyframes lampWindowGlow {
+  0%, 100% { opacity: 0.42; transform: translate(-50%, -50%) scale(0.88); }
+  50% { opacity: 0.86; transform: translate(-50%, -50%) scale(1.12); }
+}
 @keyframes lamp-breath {
   0%, 100% { opacity: 0.62; transform: translateX(-50%) scale(0.95); }
   50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
@@ -518,6 +790,15 @@ h1 {
   }
   .window-image {
     min-height: 44svh;
+  }
+  .earth-info {
+    grid-template-columns: 1fr;
+  }
+  .recorded-date {
+    text-align: left;
+  }
+  .earth-lamp {
+    padding-top: 104px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

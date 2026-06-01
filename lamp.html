@@ -4,39 +4,72 @@
   <title>The Lamp - Spring of Zen</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="One quiet thought from Spring of Zen.">
+  <meta name="description" content="A window currently facing somewhere on Earth.">
   <meta property="og:title" content="The Lamp - Spring of Zen">
-  <meta property="og:description" content="One quiet thought. The light is still on.">
+  <meta property="og:description" content="A window currently facing somewhere on Earth.">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
-<body class="part-page lamp-page">
+<body class="part-page lamp-earth-page">
   <div class="lang-switch" aria-label="Language">
     <button type="button" data-lang-button="en">EN</button>
     <button type="button" data-lang-button="zh">繁中</button>
   </div>
-  <header class="top-chrome" aria-label="Room controls">
+
+  <header class="top-chrome lamp-top" aria-label="Room controls">
     <a href="index.html" class="quiet-brand">spring of zen</a>
-    <nav class="part-nav" aria-label="Places">
-      <a href="lamp.html" data-i18n="navLamp">lamp</a>
-      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
-      <a href="table.html" data-i18n="navTable">table</a>
-      <a href="window.html" data-i18n="navWindow">window</a>
-    </nav>
+    <button class="recorded-chip" type="button" data-recorded-info data-i18n="recorded">Recorded</button>
   </header>
 
-  <main>
-    <section class="arrival-room part-room" aria-labelledby="lampTitle">
-      <div class="mist-layer" aria-hidden="true"></div>
-      <div class="grain-layer" aria-hidden="true"></div>
-      <div class="lamp-glow" aria-hidden="true"></div>
-      <div class="arrival-copy">
-        <p class="greeting" data-i18n="lampKicker">The Lamp</p>
-        <h1 id="lampTitle" data-i18n="lampTitle">The light is still on.</h1>
-        <p class="part-line" data-i18n="lampLine">One thought. No feed. No next thing.</p>
+  <main class="earth-lamp" data-lamp-page>
+    <section class="lamp-intro" data-lamp-intro aria-live="polite">
+      <p class="part-kicker">The Lamp</p>
+      <h1 data-i18n="lampIntroTitle">The world is already awake.</h1>
+      <p data-i18n="lampIntroLine">Sit for a while.</p>
+    </section>
+
+    <section class="earth-window" aria-labelledby="lampTitle">
+      <div class="earth-info">
+        <p class="part-kicker" data-i18n="todayFaces">Today the lamp faces</p>
+        <h1 id="lampTitle"><span data-lamp-title>Sunrise over Lofoten</span><br><span data-lamp-country>Norway</span></h1>
+        <p class="recorded-date"><span data-i18n="recordedOn">recorded on</span><br><span data-lamp-date>May 18, 2026</span></p>
+      </div>
+
+      <div class="lamp-video-window" aria-label="Recorded earth window">
+        <video data-lamp-video muted loop playsinline preload="metadata" poster="assets/img/still-water.webp"></video>
+        <div class="lamp-visual-fallback" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <p class="lamp-quote" data-lamp-quote>The world is already awake.</p>
+      <div class="lamp-actions">
+        <button type="button" class="listen-button" data-lamp-listen data-i18n="listenIdle">Listen</button>
+        <button type="button" class="text-tone-link" data-lamp-live onclick="openLampLive()" data-i18n="watchLive">Watch live →</button>
       </div>
     </section>
   </main>
+
+  <div class="recorded-note" data-recorded-note hidden>
+    <button type="button" data-close-recorded aria-label="Close">×</button>
+    <p data-i18n="recordedNote">This is not a live stream. A carefully selected recording from somewhere in the world.</p>
+  </div>
+
+  <div class="live-modal" data-live-modal hidden>
+    <div class="live-modal-panel" role="dialog" aria-modal="true" aria-labelledby="liveModalTitle">
+      <button type="button" class="live-modal-close" data-close-live aria-label="Close">×</button>
+      <p class="part-kicker" id="liveModalTitle" data-i18n="watchLiveTitle">Live window</p>
+      <div class="live-frame-wrap">
+        <iframe data-live-frame title="Live earth window" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+      <p class="live-modal-note" data-i18n="liveModalNote">If the live window does not load, the source may block embedding.</p>
+      <a data-live-source target="_blank" rel="noopener noreferrer" data-i18n="openLiveSource">Open original source →</a>
+    </div>
+  </div>
+
+  <audio id="roomTone" loop preload="none" src="assets/audio/harbor-roomtone.mp3"></audio>
   <script src="assets/js/v52-index.js"></script>
 </body>
 </html>

@@ -133,6 +133,19 @@ const sharedI18n = {
     lampKicker: "The Lamp",
     lampTitle: "The light is still on.",
     lampLine: "One thought. No feed. No next thing.",
+    recorded: "Recorded",
+    lampIntroTitle: "The world is already awake.",
+    lampIntroLine: "Sit for a while.",
+    todayFaces: "Today the lamp faces",
+    recordedOn: "recorded on",
+    listenIdle: "Listen",
+    listenActive: "Listening",
+    listenRetry: "Try again",
+    watchLive: "Watch live →",
+    watchLiveTitle: "Live window",
+    liveModalNote: "If the live window does not load, the source may block embedding.",
+    openLiveSource: "Open original source →",
+    recordedNote: "This is not a live stream. A carefully selected recording from somewhere in the world.",
     harborKicker: "The Harbor",
     harborTitle: "Somewhere a small dock,<br>a single light,<br>water moving without hurry.",
     harborLine: "This is what the inside of your chest can feel like, if you give it a few minutes.",
@@ -158,6 +171,19 @@ const sharedI18n = {
     lampKicker: "燈",
     lampTitle: "燈一直亮著。",
     lampLine: "一個念頭。沒有訊息流。沒有下一件事。",
+    recorded: "已錄製",
+    lampIntroTitle: "世界已經醒來。",
+    lampIntroLine: "坐一會兒。",
+    todayFaces: "今天這盞燈面向",
+    recordedOn: "錄製於",
+    listenIdle: "聽一會兒",
+    listenActive: "正在聽",
+    listenRetry: "再試一次",
+    watchLive: "觀看直播 →",
+    watchLiveTitle: "直播窗口",
+    liveModalNote: "如果直播窗口無法載入，來源網站可能不允許嵌入。",
+    openLiveSource: "打開原始來源 →",
+    recordedNote: "這不是直播。這是一段來自世界某處、被細心挑選的錄像。",
     harborKicker: "港灣",
     harborTitle: "某處有一座小碼頭，<br>一盞燈，<br>水不著急地流動。",
     harborLine: "如果你願意給它幾分鐘，胸口裡面也可以像這樣。",
@@ -212,9 +238,141 @@ function initSharedLanguageSwitch() {
   applySharedLanguage(getSharedLang());
 }
 
+function formatLampDate(dateString, lang) {
+  if (!dateString) return "";
+  const date = new Date(`${dateString}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return dateString;
+  return date.toLocaleDateString(lang === "zh" ? "zh-Hant" : "en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+let currentLampData = {
+  live_url: "https://www.skylinewebcams.com/en/webcam/norge/nordland/lofoten/reine.html"
+};
+
+function openLampLive() {
+  const liveModal = document.querySelector("[data-live-modal]");
+  const liveFrame = document.querySelector("[data-live-frame]");
+  if (!liveModal || !liveFrame) return;
+  liveFrame.src = currentLampData.live_url;
+  liveModal.hidden = false;
+}
+
+function closeLampLive() {
+  const liveModal = document.querySelector("[data-live-modal]");
+  const liveFrame = document.querySelector("[data-live-frame]");
+  if (liveModal) liveModal.hidden = true;
+  if (liveFrame) liveFrame.src = "";
+}
+
+async function initEarthLamp() {
+  const page = document.querySelector("[data-lamp-page]");
+  if (!page) return;
+  let data = {
+    title: "Sunrise over Lofoten",
+    country: "Norway",
+    date: "2026-05-18",
+    video: "",
+    poster: "assets/img/still-water.webp",
+    live_url: "https://www.skylinewebcams.com/en/webcam/norge/nordland/lofoten/reine.html",
+    quote: "The world is already awake."
+  };
+  try {
+    const response = await fetch("assets/data/lamp.json", { cache: "no-store" });
+    if (response.ok) data = { ...data, ...(await response.json()) };
+  } catch {
+    /* The lamp keeps glowing with its built-in fallback. */
+  }
+  currentLampData = data;
+
+  const title = document.querySelector("[data-lamp-title]");
+  const country = document.querySelector("[data-lamp-country]");
+  const date = document.querySelector("[data-lamp-date]");
+  const quote = document.querySelector("[data-lamp-quote]");
+  const live = document.querySelector("[data-lamp-live]");
+  const liveFrame = document.querySelector("[data-live-frame]");
+  const liveSource = document.querySelector("[data-live-source]");
+  const video = document.querySelector("[data-lamp-video]");
+  const frame = document.querySelector(".lamp-video-window");
+  if (title) title.textContent = data.title;
+  if (country) country.textContent = data.country;
+  if (date) date.textContent = formatLampDate(data.date, getSharedLang());
+  if (quote) quote.textContent = data.quote;
+  if (liveSource) liveSource.href = data.live_url;
+  if (video && data.poster) video.setAttribute("poster", data.poster);
+  if (video && data.video) {
+    video.src = data.video;
+    video.addEventListener("canplay", () => {
+      frame?.classList.add("has-video");
+      video.play().catch(() => {});
+    }, { once: true });
+  }
+
+  const intro = document.querySelector("[data-lamp-intro]");
+  window.setTimeout(() => intro?.classList.add("is-faded"), 3000);
+
+  const recorded = document.querySelector("[data-recorded-info]");
+  const note = document.querySelector("[data-recorded-note]");
+  const close = document.querySelector("[data-close-recorded]");
+  recorded?.addEventListener("click", () => {
+    if (note) note.hidden = !note.hidden;
+  });
+  close?.addEventListener("click", () => {
+    if (note) note.hidden = true;
+  });
+
+  const liveModal = document.querySelector("[data-live-modal]");
+  const closeLive = document.querySelector("[data-close-live]");
+  live?.addEventListener("click", openLampLive);
+  closeLive?.addEventListener("click", closeLampLive);
+  liveModal?.addEventListener("click", (event) => {
+    if (event.target !== liveModal) return;
+    closeLampLive();
+  });
+
+  const listen = document.querySelector("[data-lamp-listen]");
+  const audio = document.getElementById("roomTone");
+  if (audio && data.audio) audio.src = data.audio;
+  let lampFade = null;
+  const fadeLampAudio = (target) => {
+    if (!audio) return;
+    window.clearInterval(lampFade);
+    const step = target > audio.volume ? 0.025 : -0.04;
+    lampFade = window.setInterval(() => {
+      const next = Math.max(0, Math.min(target, audio.volume + step));
+      audio.volume = next;
+      if (next === target || next === 0) {
+        window.clearInterval(lampFade);
+        if (next === 0) audio.pause();
+      }
+    }, 80);
+  };
+  listen?.addEventListener("click", async () => {
+    if (!audio) return;
+    const text = getSharedText();
+    if (audio.paused) {
+      try {
+        audio.volume = 0;
+        await audio.play();
+        listen.textContent = text.listenActive;
+        fadeLampAudio(0.3);
+      } catch {
+        listen.textContent = text.listenRetry;
+      }
+    } else {
+      listen.textContent = text.listenIdle;
+      fadeLampAudio(0);
+    }
+  });
+}
+
 initGreeting();
 initAudioToggle();
 initReveal();
 initBreathingCircle();
 initOneWordNote();
 initSharedLanguageSwitch();
+initEarthLamp();
