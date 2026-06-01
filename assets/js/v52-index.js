@@ -147,6 +147,7 @@ const sharedI18n = {
     openLiveSource: "Open source reference →",
     recordedNote: "This is not a live stream. A carefully selected recording from somewhere in the world.",
     leaveNote: "Leave a note at the table →",
+    sceneFrom: "This scene is from",
     harborKicker: "The Harbor",
     harborTitle: "Somewhere a small dock,<br>a single light,<br>water moving without hurry.",
     harborLine: "This is what the inside of your chest can feel like, if you give it a few minutes.",
@@ -186,6 +187,7 @@ const sharedI18n = {
     openLiveSource: "打開來源參考 →",
     recordedNote: "這不是直播。這是一段來自世界某處、被細心挑選的錄像。",
     leaveNote: "去桌邊留一句話 →",
+    sceneFrom: "這個畫面來自",
     harborKicker: "港灣",
     harborTitle: "某處有一座小碼頭，<br>一盞燈，<br>水不著急地流動。",
     harborLine: "如果你願意給它幾分鐘，胸口裡面也可以像這樣。",
@@ -306,6 +308,7 @@ async function initEarthLamp() {
 
   const title = document.querySelector("[data-lamp-title]");
   const country = document.querySelector("[data-lamp-country]");
+  const place = document.querySelector("[data-lamp-place]");
   const date = document.querySelector("[data-lamp-date]");
   const quote = document.querySelector("[data-lamp-quote]");
   const live = document.querySelector("[data-lamp-live]");
@@ -315,6 +318,7 @@ async function initEarthLamp() {
   const frame = document.querySelector(".lamp-video-window");
   if (title) title.textContent = data.title;
   if (country) country.textContent = data.country;
+  if (place) place.textContent = data.country;
   updateLampDynamicLanguage();
   if (quote) quote.textContent = data.quote;
   if (liveSource) liveSource.href = data.live_url;

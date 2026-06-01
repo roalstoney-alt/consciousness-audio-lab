@@ -513,8 +513,8 @@ h1 {
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
-  align-items: center;
-  padding: clamp(82px, 12vh, 130px) clamp(18px, 5vw, 68px) clamp(38px, 7vh, 78px);
+  align-items: start;
+  padding: clamp(70px, 9vh, 96px) clamp(18px, 5vw, 68px) clamp(32px, 5vh, 56px);
 }
 .lamp-intro {
   position: fixed;
@@ -548,37 +548,39 @@ h1 {
   font-size: clamp(18px, 2vw, 24px);
 }
 .earth-window {
-  width: min(1120px, 100%);
+  width: min(920px, 100%);
   margin: 0 auto;
-  display: grid;
-  gap: clamp(18px, 4vh, 34px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.5vh, 24px);
 }
 .earth-info {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: end;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
 }
-.earth-info h1 {
+.earth-info .part-kicker {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(38px, 6vw, 84px);
-  font-weight: 400;
-  line-height: 1.02;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(216, 168, 96, 0.1);
 }
 .recorded-date {
-  margin: 0 0 8px;
+  margin: 0;
   color: rgba(238, 230, 214, 0.58);
   font-size: 14px;
-  line-height: 1.7;
-  text-align: right;
-  text-transform: lowercase;
+  line-height: 1.5;
+  text-align: center;
 }
 .lamp-video-window {
   position: relative;
   aspect-ratio: 16 / 9;
+  width: 100%;
   overflow: hidden;
-  border: 1px solid rgba(238, 230, 214, 0.13);
+  border: 1px solid rgba(238, 230, 214, 0.12);
+  border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(5, 5, 5, 0.08), rgba(5, 5, 5, 0.32)),
     url("../img/still-water.webp") center / cover no-repeat,
@@ -599,6 +601,25 @@ h1 {
 .lamp-video-window.has-video .lamp-visual-fallback {
   opacity: 0;
   pointer-events: none;
+}
+.lamp-title-overlay {
+  position: absolute;
+  left: 50%;
+  right: auto;
+  bottom: 0;
+  z-index: 3;
+  width: 100%;
+  margin: 0;
+  padding: 86px clamp(18px, 5vw, 52px) 26px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.66));
+  color: var(--ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4.4vw, 54px);
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: center;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.76);
 }
 .lamp-visual-fallback {
   position: absolute;
@@ -645,11 +666,20 @@ h1 {
   font-size: clamp(24px, 3.8vw, 48px);
   font-style: italic;
   line-height: 1.22;
+  text-align: center;
+}
+.lamp-source {
+  margin: -8px 0 8px;
+  color: rgba(216, 168, 96, 0.58);
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
 }
 .lamp-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  justify-content: center;
+  gap: 18px 28px;
   align-items: center;
 }
 .lamp-actions a,
@@ -809,10 +839,17 @@ h1 {
     grid-template-columns: 1fr;
   }
   .recorded-date {
-    text-align: left;
+    text-align: center;
   }
   .earth-lamp {
-    padding-top: 104px;
+    padding-top: 88px;
+  }
+  .lamp-title-overlay {
+    padding: 58px 18px 18px;
+    font-size: clamp(24px, 8vw, 34px);
+  }
+  .lamp-actions {
+    gap: 14px 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
