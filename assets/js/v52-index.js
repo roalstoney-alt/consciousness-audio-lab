@@ -146,6 +146,7 @@ const sharedI18n = {
     liveModalNote: "This window uses the uploaded daily recording.",
     openLiveSource: "Open source reference →",
     recordedNote: "This is not a live stream. A carefully selected recording from somewhere in the world.",
+    leaveNote: "Leave a note at the table →",
     harborKicker: "The Harbor",
     harborTitle: "Somewhere a small dock,<br>a single light,<br>water moving without hurry.",
     harborLine: "This is what the inside of your chest can feel like, if you give it a few minutes.",
@@ -184,6 +185,7 @@ const sharedI18n = {
     liveModalNote: "這個窗口播放今日上傳的錄像。",
     openLiveSource: "打開來源參考 →",
     recordedNote: "這不是直播。這是一段來自世界某處、被細心挑選的錄像。",
+    leaveNote: "去桌邊留一句話 →",
     harborKicker: "港灣",
     harborTitle: "某處有一座小碼頭，<br>一盞燈，<br>水不著急地流動。",
     harborLine: "如果你願意給它幾分鐘，胸口裡面也可以像這樣。",
@@ -228,6 +230,7 @@ function applySharedLanguage(lang) {
   document.querySelectorAll("[data-lang-button]").forEach((button) => {
     button.classList.toggle("active", button.dataset.langButton === lang);
   });
+  updateLampDynamicLanguage(lang);
 }
 
 function initSharedLanguageSwitch() {
@@ -242,7 +245,7 @@ function formatLampDate(dateString, lang) {
   if (!dateString) return "";
   const date = new Date(`${dateString}T00:00:00`);
   if (Number.isNaN(date.getTime())) return dateString;
-  return date.toLocaleDateString(lang === "zh" ? "zh-Hant" : "en", {
+  return date.toLocaleDateString(lang === "zh" ? "zh-Hant-TW" : "en-US", {
     year: "numeric",
     month: "long",
     day: "numeric"
@@ -252,6 +255,11 @@ function formatLampDate(dateString, lang) {
 let currentLampData = {
   live_url: "https://www.skylinewebcams.com/en/webcam/norge/nordland/lofoten/reine.html"
 };
+
+function updateLampDynamicLanguage(lang = getSharedLang()) {
+  const date = document.querySelector("[data-lamp-date]");
+  if (date && currentLampData.date) date.textContent = formatLampDate(currentLampData.date, lang);
+}
 
 function openLampLive() {
   const liveModal = document.querySelector("[data-live-modal]");
@@ -305,7 +313,7 @@ async function initEarthLamp() {
   const frame = document.querySelector(".lamp-video-window");
   if (title) title.textContent = data.title;
   if (country) country.textContent = data.country;
-  if (date) date.textContent = formatLampDate(data.date, getSharedLang());
+  updateLampDynamicLanguage();
   if (quote) quote.textContent = data.quote;
   if (liveSource) liveSource.href = data.live_url;
   if (liveVideo && data.poster) liveVideo.setAttribute("poster", data.poster);
