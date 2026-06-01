@@ -281,6 +281,31 @@ h1 {
   font-size: clamp(17px, 2vw, 21px);
   line-height: 1.65;
 }
+.harbor-lab-line {
+  max-width: 620px;
+  color: rgba(216, 168, 96, 0.72);
+}
+.harbor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  align-items: center;
+}
+.harbor-primary-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid rgba(216, 168, 96, 0.45);
+  border-radius: 999px;
+  color: var(--ivory);
+  background: rgba(216, 168, 96, 0.1);
+  text-decoration: none;
+}
+.harbor-primary-link:hover {
+  border-color: rgba(216, 168, 96, 0.86);
+  background: rgba(216, 168, 96, 0.16);
+}
 .text-tone-link {
   display: inline;
   color: rgba(238, 230, 214, 0.72);
