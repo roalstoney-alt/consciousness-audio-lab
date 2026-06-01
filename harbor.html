@@ -8,7 +8,7 @@
   <meta property="og:title" content="The Harbor - Spring of Zen">
   <meta property="og:description" content="A quiet room tone for those tired of the scroll.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="assets/css/v52-index.css?v=20260601-harbor-link">
+  <link rel="stylesheet" href="assets/css/v52-index.css?v=20260601-harbor-breath">
 </head>
 <body class="part-page harbor-page">
   <div class="lang-switch" aria-label="Language">
@@ -20,23 +20,30 @@
     <button id="roomToneToggle" class="tone-toggle" type="button" aria-pressed="false" data-i18n="roomTone">room tone</button>
   </header>
 
-  <main>
-    <section class="night-dock part-room" aria-labelledby="harborTitle">
-      <div class="dock-veil" aria-hidden="true"></div>
-      <div class="dock-copy is-revealed">
+  <main class="harbor-breath-page">
+    <section class="harbor-breath-section" aria-labelledby="harborTitle">
+      <div class="harbor-breath-wrap">
         <p class="part-kicker" data-i18n="harborKicker">The Harbor</p>
-        <h1 id="harborTitle" data-i18n-html="harborTitle">Somewhere a small dock,<br>a single light,<br>water moving without hurry.</h1>
-        <p data-i18n="harborLine">This is what the inside of your chest can feel like, if you give it a few minutes.</p>
+        <span class="harbor-breath-orb" aria-hidden="true"></span>
+        <h1 id="harborTitle" data-breath-label data-i18n="breatheOut">breathe out</h1>
+        <p class="harbor-cycle" data-i18n="breathCycle">six seconds, one cycle</p>
+      </div>
+    </section>
+
+    <section class="harbor-thought-section" aria-labelledby="harborThought">
+      <div class="harbor-thought-wrap">
+        <blockquote id="harborThought" data-i18n-html="harborThought">
+          AI can give us back our time.<br>
+          <span>But it cannot tell us what to do<br>with the silence it returns.</span>
+        </blockquote>
+        <div class="harbor-divider" aria-hidden="true"></div>
         <p class="harbor-lab-line" data-i18n="harborLabLine">Daily music from the Consciousness Sound Lab is playing inside Night Harbor.</p>
-        <div class="harbor-actions">
-          <a class="harbor-primary-link" href="night-harbor/" data-i18n="enterNightHarbor">Enter Night Harbor →</a>
-          <button class="text-tone-link" type="button" data-tone-link data-i18n="turnOnRoomTone">turn on the room tone</button>
-        </div>
+        <a class="harbor-primary-link" href="night-harbor/" data-i18n="enterNightHarbor">Enter Night Harbor →</a>
       </div>
     </section>
   </main>
 
   <audio id="roomTone" loop preload="none" src="assets/audio/harbor-roomtone.mp3"></audio>
-  <script src="assets/js/v52-index.js?v=20260601-harbor-link"></script>
+  <script src="assets/js/v52-index.js?v=20260601-harbor-breath"></script>
 </body>
 </html>

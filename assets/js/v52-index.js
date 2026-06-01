@@ -153,6 +153,10 @@ const sharedI18n = {
     harborLine: "This is what the inside of your chest can feel like, if you give it a few minutes.",
     harborLabLine: "Daily music from the Consciousness Sound Lab is playing inside Night Harbor.",
     enterNightHarbor: "Enter Night Harbor →",
+    breatheIn: "breathe in",
+    breatheOut: "breathe out",
+    breathCycle: "six seconds, one cycle",
+    harborThought: "AI can give us back our time.<br><span>But it cannot tell us what to do<br>with the silence it returns.</span>",
     turnOnRoomTone: "turn on the room tone",
     tableKicker: "The Table",
     tableTitle: "Before you go,<br>leave one word for the room.",
@@ -195,6 +199,10 @@ const sharedI18n = {
     harborLine: "如果你願意給它幾分鐘，胸口裡面也可以像這樣。",
     harborLabLine: "Consciousness Sound Lab 的每日音樂正在夜港裡播放。",
     enterNightHarbor: "進入夜港 →",
+    breatheIn: "吸氣",
+    breatheOut: "呼氣",
+    breathCycle: "六秒，一個循環",
+    harborThought: "AI 可以把時間還給我們。<br><span>但它不能告訴我們<br>該如何安放被歸還的寂靜。</span>",
     turnOnRoomTone: "打開房間聲",
     tableKicker: "桌子",
     tableTitle: "離開以前，<br>留一個字給房間。",
@@ -245,6 +253,18 @@ function initSharedLanguageSwitch() {
     button.addEventListener("click", () => applySharedLanguage(button.dataset.langButton));
   });
   applySharedLanguage(getSharedLang());
+}
+
+function initHarborBreath() {
+  const label = document.querySelector("[data-breath-label]");
+  if (!label) return;
+  const update = () => {
+    const text = getSharedText();
+    const progress = (Date.now() % 6000) / 6000;
+    label.textContent = progress < 0.5 ? text.breatheIn : text.breatheOut;
+  };
+  update();
+  window.setInterval(update, 160);
 }
 
 function formatLampDate(dateString, lang) {
@@ -401,4 +421,5 @@ initReveal();
 initBreathingCircle();
 initOneWordNote();
 initSharedLanguageSwitch();
+initHarborBreath();
 initEarthLamp();

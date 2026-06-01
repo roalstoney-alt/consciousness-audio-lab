@@ -314,6 +314,97 @@ h1 {
 .text-tone-link[hidden] {
   display: none;
 }
+.harbor-breath-page {
+  background: #050505;
+}
+.harbor-breath-section,
+.harbor-thought-section {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 24vh 24px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(216, 168, 96, 0.08), transparent 22rem),
+    #050505;
+}
+.harbor-breath-wrap {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.harbor-breath-orb {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin-top: 34px;
+  border: 1px solid rgba(216, 168, 96, 0.3);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 168, 96, 0.28), rgba(216, 168, 96, 0) 70%);
+  animation: harborBreathOrb 6s ease-in-out infinite;
+}
+.harbor-breath-wrap h1 {
+  margin: 40px 0 0;
+  color: rgba(238, 230, 214, 0.85);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-style: italic;
+  font-weight: 400;
+}
+.harbor-cycle {
+  margin: 16px 0 0;
+  color: rgba(238, 230, 214, 0.35);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.harbor-thought-section {
+  min-height: 92vh;
+  min-height: 92svh;
+  padding-block: 20vh;
+}
+.harbor-thought-wrap {
+  width: min(720px, 100%);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.harbor-thought-wrap blockquote {
+  margin: 0;
+  color: rgba(238, 230, 214, 0.85);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-style: italic;
+  line-height: 1.55;
+}
+.harbor-thought-wrap blockquote span {
+  color: rgba(238, 230, 214, 0.58);
+}
+.harbor-divider {
+  width: 64px;
+  height: 1px;
+  margin: 56px 0 34px;
+  background: rgba(216, 168, 96, 0.3);
+}
+.harbor-thought-wrap .harbor-lab-line {
+  margin: 0 0 26px;
+  text-align: center;
+}
+@keyframes harborBreathOrb {
+  0%, 100% {
+    width: 96px;
+    height: 96px;
+    background: radial-gradient(circle, rgba(216, 168, 96, 0.18), rgba(216, 168, 96, 0) 70%);
+  }
+  50% {
+    width: 176px;
+    height: 176px;
+    background: radial-gradient(circle, rgba(216, 168, 96, 0.36), rgba(216, 168, 96, 0) 70%);
+  }
+}
 .breathing-section {
   display: grid;
   place-items: center;
