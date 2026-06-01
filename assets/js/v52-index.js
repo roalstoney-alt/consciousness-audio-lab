@@ -268,6 +268,9 @@ function closeLampLive() {
   if (liveFrame) liveFrame.src = "";
 }
 
+window.openLampLive = openLampLive;
+window.closeLampLive = closeLampLive;
+
 async function initEarthLamp() {
   const page = document.querySelector("[data-lamp-page]");
   if (!page) return;
