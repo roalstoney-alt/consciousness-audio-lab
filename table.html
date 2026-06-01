@@ -11,13 +11,17 @@
   <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
 <body class="part-page table-page">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
   <header class="top-chrome" aria-label="Room controls">
     <a href="index.html" class="quiet-brand">spring of zen</a>
     <nav class="part-nav" aria-label="Places">
-      <a href="lamp.html">lamp</a>
-      <a href="harbor.html">harbor</a>
-      <a href="table.html">table</a>
-      <a href="window.html">window</a>
+      <a href="lamp.html" data-i18n="navLamp">lamp</a>
+      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="window.html" data-i18n="navWindow">window</a>
     </nav>
   </header>
 
@@ -25,12 +29,12 @@
     <section class="one-word-section part-room" aria-labelledby="tableTitle">
       <div class="word-veil" aria-hidden="true"></div>
       <div class="word-panel is-revealed" data-one-word-panel>
-        <p class="part-kicker">The Table</p>
-        <h1 id="tableTitle">Before you go,<br>leave one word for the room.</h1>
+        <p class="part-kicker" data-i18n="tableKicker">The Table</p>
+        <h1 id="tableTitle" data-i18n-html="tableTitle">Before you go,<br>leave one word for the room.</h1>
         <form id="oneWordForm" class="one-word-form">
-          <label class="sr-only" for="oneWordInput">One word for the room</label>
-          <input id="oneWordInput" name="word" maxlength="28" autocomplete="off" placeholder="quiet">
-          <p>press enter to leave it on the table</p>
+          <label class="sr-only" for="oneWordInput" data-i18n="tableLabel">One word for the room</label>
+          <input id="oneWordInput" name="word" maxlength="28" autocomplete="off" placeholder="quiet" data-i18n-placeholder="tablePlaceholder">
+          <p data-i18n="tableHelp">press enter to leave it on the table</p>
         </form>
       </div>
     </section>

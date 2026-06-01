@@ -11,13 +11,17 @@
   <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
 <body class="part-page lamp-page">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
   <header class="top-chrome" aria-label="Room controls">
     <a href="index.html" class="quiet-brand">spring of zen</a>
     <nav class="part-nav" aria-label="Places">
-      <a href="lamp.html">lamp</a>
-      <a href="harbor.html">harbor</a>
-      <a href="table.html">table</a>
-      <a href="window.html">window</a>
+      <a href="lamp.html" data-i18n="navLamp">lamp</a>
+      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="window.html" data-i18n="navWindow">window</a>
     </nav>
   </header>
 
@@ -27,11 +31,12 @@
       <div class="grain-layer" aria-hidden="true"></div>
       <div class="lamp-glow" aria-hidden="true"></div>
       <div class="arrival-copy">
-        <p class="greeting">The Lamp</p>
-        <h1 id="lampTitle">The light is still on.</h1>
-        <p class="part-line">One thought. No feed. No next thing.</p>
+        <p class="greeting" data-i18n="lampKicker">The Lamp</p>
+        <h1 id="lampTitle" data-i18n="lampTitle">The light is still on.</h1>
+        <p class="part-line" data-i18n="lampLine">One thought. No feed. No next thing.</p>
       </div>
     </section>
   </main>
+  <script src="assets/js/v52-index.js"></script>
 </body>
 </html>

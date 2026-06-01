@@ -11,13 +11,17 @@
   <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
 <body class="part-page window-page">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
   <header class="top-chrome" aria-label="Room controls">
     <a href="index.html" class="quiet-brand">spring of zen</a>
     <nav class="part-nav" aria-label="Places">
-      <a href="lamp.html">lamp</a>
-      <a href="harbor.html">harbor</a>
-      <a href="table.html">table</a>
-      <a href="window.html">window</a>
+      <a href="lamp.html" data-i18n="navLamp">lamp</a>
+      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="window.html" data-i18n="navWindow">window</a>
     </nav>
   </header>
 
@@ -25,11 +29,12 @@
     <section class="window-quiet part-room" aria-labelledby="windowTitle">
       <div class="window-image" aria-hidden="true"></div>
       <div class="window-copy">
-        <p class="part-kicker">The Window</p>
-        <h1 id="windowTitle">What still exists that people have forgotten to notice?</h1>
-        <p>A quiet street after rain. No one owns the reflection.</p>
+        <p class="part-kicker" data-i18n="windowKicker">The Window</p>
+        <h1 id="windowTitle" data-i18n="windowTitle">What still exists that people have forgotten to notice?</h1>
+        <p data-i18n="windowLine">A quiet street after rain. No one owns the reflection.</p>
       </div>
     </section>
   </main>
+  <script src="assets/js/v52-index.js"></script>
 </body>
 </html>

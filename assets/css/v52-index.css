@@ -52,6 +52,32 @@ a { color: inherit; }
   text-transform: lowercase;
   pointer-events: none;
 }
+.lang-switch {
+  position: fixed;
+  top: 18px;
+  right: clamp(16px, 3vw, 32px);
+  z-index: 90;
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(216, 168, 96, 0.22);
+  background: rgba(8, 7, 6, 0.56);
+  backdrop-filter: blur(12px);
+}
+.lang-switch button {
+  min-width: 42px;
+  border: 0;
+  background: transparent;
+  color: rgba(238, 230, 214, 0.58);
+  padding: 7px 9px;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.lang-switch button.active {
+  color: var(--ivory);
+  background: rgba(216, 168, 96, 0.16);
+}
 .part-nav {
   display: flex;
   flex-wrap: wrap;

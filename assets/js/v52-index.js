@@ -18,7 +18,8 @@ function initAudioToggle() {
   let fadeTimer = null;
 
   const setLabel = (playing) => {
-    toggle.textContent = playing ? "listening" : "room tone";
+    const text = getSharedText();
+    toggle.textContent = playing ? text.listening : text.roomTone;
     toggle.setAttribute("aria-pressed", playing ? "true" : "false");
     if (inlineToggle) inlineToggle.hidden = playing;
   };
@@ -96,10 +97,11 @@ function initOneWordNote() {
   const panel = document.querySelector("[data-one-word-panel]");
   if (!form || !input || !panel) return;
   const showThanks = (word) => {
+    const text = getSharedText();
     panel.innerHTML = `
       <div class="word-thanks">
         <blockquote>"${word.replace(/[<>&"]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "\"": "&quot;" }[char]))}"</blockquote>
-        <p>Thank you. The room is a little warmer now.</p>
+        <p>${text.tableThanks}</p>
       </div>
     `;
   };
@@ -119,8 +121,100 @@ function initOneWordNote() {
   });
 }
 
+const sharedI18n = {
+  en: {
+    htmlLang: "en",
+    navLamp: "lamp",
+    navHarbor: "harbor",
+    navTable: "table",
+    navWindow: "window",
+    roomTone: "room tone",
+    listening: "listening",
+    lampKicker: "The Lamp",
+    lampTitle: "The light is still on.",
+    lampLine: "One thought. No feed. No next thing.",
+    harborKicker: "The Harbor",
+    harborTitle: "Somewhere a small dock,<br>a single light,<br>water moving without hurry.",
+    harborLine: "This is what the inside of your chest can feel like, if you give it a few minutes.",
+    turnOnRoomTone: "turn on the room tone",
+    tableKicker: "The Table",
+    tableTitle: "Before you go,<br>leave one word for the room.",
+    tableLabel: "One word for the room",
+    tablePlaceholder: "quiet",
+    tableHelp: "press enter to leave it on the table",
+    tableThanks: "Thank you. The room is a little warmer now.",
+    windowKicker: "The Window",
+    windowTitle: "What still exists that people have forgotten to notice?",
+    windowLine: "A quiet street after rain. No one owns the reflection."
+  },
+  zh: {
+    htmlLang: "zh-Hant",
+    navLamp: "燈",
+    navHarbor: "港灣",
+    navTable: "桌子",
+    navWindow: "窗",
+    roomTone: "房間聲",
+    listening: "正在聽",
+    lampKicker: "燈",
+    lampTitle: "燈一直亮著。",
+    lampLine: "一個念頭。沒有訊息流。沒有下一件事。",
+    harborKicker: "港灣",
+    harborTitle: "某處有一座小碼頭，<br>一盞燈，<br>水不著急地流動。",
+    harborLine: "如果你願意給它幾分鐘，胸口裡面也可以像這樣。",
+    turnOnRoomTone: "打開房間聲",
+    tableKicker: "桌子",
+    tableTitle: "離開以前，<br>留一個字給房間。",
+    tableLabel: "留一個字給房間",
+    tablePlaceholder: "靜",
+    tableHelp: "按下 Enter，把它留在桌上",
+    tableThanks: "謝謝。房間暖了一點。",
+    windowKicker: "窗",
+    windowTitle: "還有什麼仍然存在，只是被人忘了看見？",
+    windowLine: "雨後的安靜街道。倒影不屬於任何人。"
+  }
+};
+
+function getSharedLang() {
+  return localStorage.getItem("spring_of_zen_lang") || "en";
+}
+
+function getSharedText() {
+  return sharedI18n[getSharedLang()] || sharedI18n.en;
+}
+
+function applySharedLanguage(lang) {
+  const text = sharedI18n[lang] || sharedI18n.en;
+  localStorage.setItem("spring_of_zen_lang", lang);
+  document.documentElement.lang = text.htmlLang;
+  document.querySelectorAll("[data-i18n]").forEach((node) => {
+    node.textContent = text[node.dataset.i18n];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+    node.innerHTML = text[node.dataset.i18nHtml];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+    node.setAttribute("placeholder", text[node.dataset.i18nPlaceholder]);
+  });
+  const audio = document.getElementById("roomTone");
+  const toggle = document.getElementById("roomToneToggle");
+  if (toggle && (!audio || audio.paused)) toggle.textContent = text.roomTone;
+  if (toggle && audio && !audio.paused) toggle.textContent = text.listening;
+  document.querySelectorAll("[data-lang-button]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.langButton === lang);
+  });
+}
+
+function initSharedLanguageSwitch() {
+  if (!document.querySelector("[data-lang-button]")) return;
+  document.querySelectorAll("[data-lang-button]").forEach((button) => {
+    button.addEventListener("click", () => applySharedLanguage(button.dataset.langButton));
+  });
+  applySharedLanguage(getSharedLang());
+}
+
 initGreeting();
 initAudioToggle();
 initReveal();
 initBreathingCircle();
 initOneWordNote();
+initSharedLanguageSwitch();

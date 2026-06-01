@@ -1,91 +1,744 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-  <title>Spring of Zen - The light is still on</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A quiet room for those tired of the scroll. Sit. Breathe. Stay as long as you need.">
+  <title>Spring of Zen</title>
+  <meta name="description" content="一盞燈，一杯溫茶，一個可以慢下來的港灣。">
   <meta property="og:title" content="Spring of Zen">
-  <meta property="og:description" content="A quiet room for those tired of the scroll.">
+  <meta property="og:description" content="一盞燈，一杯溫茶，一個可以慢下來的港灣。">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="assets/css/v52-index.css">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      color-scheme: dark;
+      --bg: #0a0603;
+      --ink: #f5e8c7;
+      --muted: #8c7a5f;
+      --gold: #d4b483;
+      --line: #3a2f1f;
+      --panel: #1f1a14;
+      --warm: #e8d5b8;
+    }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(212, 180, 131, 0.1), transparent 25rem),
+        #0a0603;
+      color: var(--warm);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", "Playfair Display", Georgia, serif;
+      overflow: hidden;
+      letter-spacing: 0;
+    }
+    button, input { font: inherit; color: inherit; }
+    a { color: inherit; }
+    .hidden { display: none !important; }
+    .lang-switch {
+      position: fixed;
+      top: 18px;
+      right: clamp(16px, 3vw, 32px);
+      z-index: 90;
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(212, 180, 131, 0.22);
+      background: rgba(10, 6, 3, 0.56);
+      backdrop-filter: blur(12px);
+    }
+    .lang-switch button {
+      min-width: 42px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 7px 9px;
+      cursor: pointer;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+    .lang-switch button.active {
+      color: var(--ink);
+      background: rgba(212, 180, 131, 0.16);
+    }
+    .min-screen {
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+    .home-art {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(22px, 4vh, 34px) 18px clamp(18px, 3vh, 28px);
+      text-align: center;
+      overflow: hidden;
+    }
+    .home-art::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(ellipse at 40% 58%, rgba(245, 232, 199, 0.09), transparent 28%),
+        radial-gradient(ellipse at 65% 38%, rgba(212, 180, 131, 0.12), transparent 24%);
+      filter: blur(24px);
+      animation: mistDrift 26s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    .home-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(245, 232, 199, 0.12) 0 1px, transparent 1.4px);
+      background-size: 22px 22px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .home-head {
+      position: relative;
+      z-index: 2;
+      margin-bottom: clamp(18px, 4vh, 34px);
+    }
+    .seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 4px;
+    }
+    .seal span:first-child {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 26px rgba(212, 180, 131, 0.74);
+      animation: dotPulse 2.6s ease-in-out infinite;
+    }
+    h1, h2, p { letter-spacing: 0; }
+    .home-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(58px, 10vw, 116px);
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-indent: 0.18em;
+      text-shadow: 0 12px 42px rgba(0, 0, 0, 0.88);
+    }
+    .tea-container {
+      position: relative;
+      z-index: 2;
+      width: min(360px, 74vw, 42vh);
+      height: min(360px, 74vw, 42vh);
+      margin: 0 auto;
+    }
+    .glow-orb {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      width: 110%;
+      height: 110%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 232, 199, 0.18) 10%, transparent 65%);
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      animation: softPulse 22s infinite ease-in-out;
+    }
+    .tea-cup {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 58%;
+      height: 58%;
+      border-radius: 50% 50% 44% 44%;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(245, 232, 199, 0.45), transparent 0 19%, rgba(99, 57, 28, 0.78) 20% 42%, rgba(28, 14, 7, 0.95) 43%),
+        linear-gradient(140deg, #6d4b2b, #1b0f08 58%, #050302);
+      box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.9),
+        inset 0 30px 40px rgba(0, 0, 0, 0.7);
+      z-index: 2;
+      transition: transform 0.6s ease;
+    }
+    .tea-cup::before {
+      content: "";
+      position: absolute;
+      inset: 13% 14% auto;
+      height: 34%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #8b5a25, #2b1509 68%);
+      box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.8), 0 0 28px rgba(212, 180, 131, 0.12);
+    }
+    .tea-cup:hover { transform: translateX(-50%) scale(1.03); }
+    .steam {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      width: 43%;
+      height: 62%;
+      transform: translateX(-50%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .steam-particle {
+      position: absolute;
+      background: linear-gradient(transparent, rgba(245, 232, 199, 0.65));
+      border-radius: 50%;
+      filter: blur(18px);
+      animation: steamRise linear infinite;
+    }
+    .welcome-wrap {
+      position: relative;
+      z-index: 2;
+      margin-top: clamp(16px, 4vh, 34px);
+      max-width: 560px;
+      padding: 0 20px;
+    }
+    .lamp-text {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.35;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+    }
+    .enter-gate {
+      position: fixed;
+      left: 50%;
+      bottom: clamp(18px, 3vh, 30px);
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .enter-gate::before {
+      content: "";
+      width: 28px;
+      height: 46px;
+      margin-bottom: 2px;
+      border: 1px solid rgba(212, 180, 131, 0.46);
+      border-radius: 999px 999px 7px 7px;
+      background:
+        radial-gradient(circle at 50% 78%, rgba(212, 180, 131, 0.22), transparent 36%),
+        linear-gradient(180deg, rgba(212, 180, 131, 0.04), rgba(212, 180, 131, 0.14));
+      box-shadow: 0 0 28px rgba(212, 180, 131, 0.22);
+      transition: border-color 500ms ease, box-shadow 500ms ease;
+    }
+    .enter-gate:hover::before {
+      border-color: var(--gold);
+      box-shadow: 0 0 36px rgba(212, 180, 131, 0.38);
+    }
+    .enter-gate span {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      transition: color 500ms ease;
+    }
+    .enter-gate i {
+      color: var(--gold);
+      font-style: normal;
+      font-size: 34px;
+      animation: bounceSoft 1.7s ease-in-out infinite;
+    }
+    .enter-gate:hover {
+      transform: translateX(-50%);
+    }
+    .enter-gate:hover span { color: var(--gold); }
+    .main-content {
+      min-height: 100vh;
+      min-height: 100svh;
+      padding-top: 84px;
+      overflow: hidden;
+    }
+    .place-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      width: min(1024px, 100%);
+      margin: 0 auto;
+      padding: 18px clamp(18px, 4vw, 34px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .nav-brand,
+    .nav-link {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--warm);
+      font-size: 20px;
+      letter-spacing: 0.18em;
+      transition: color 300ms ease;
+    }
+    .nav-brand:hover { color: var(--gold); }
+    .nav-brand i,
+    .nav-link i {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 3vw, 30px);
+      font-size: 14px;
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      transition: color 300ms ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--gold);
+    }
+    .section {
+      display: none;
+      min-height: calc(100svh - 84px);
+      align-items: center;
+      justify-content: center;
+      padding: clamp(42px, 8vh, 86px) 20px;
+      text-align: center;
+    }
+    .section.active {
+      display: flex;
+    }
+    .section-inner {
+      width: min(820px, 100%);
+      margin: 0 auto;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 22px;
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .place-copy {
+      margin-top: clamp(34px, 7vh, 62px);
+      color: var(--ink);
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.35;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+    }
+    .small-copy {
+      max-width: 640px;
+      margin: 22px auto 0;
+      color: rgba(232, 213, 184, 0.72);
+      font-size: clamp(17px, 2vw, 22px);
+      line-height: 1.75;
+    }
+    .listen-button,
+    .table-form button {
+      margin-top: 28px;
+      border: 1px solid rgba(212, 180, 131, 0.35);
+      background: rgba(31, 26, 20, 0.72);
+      color: var(--gold);
+      padding: 11px 18px;
+      cursor: pointer;
+      transition: border-color 250ms ease, color 250ms ease;
+    }
+    .listen-button:hover,
+    .table-form button:hover {
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+    .table-form {
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .table-form input {
+      width: min(420px, 100%);
+      border: 0;
+      border-bottom: 1px solid rgba(212, 180, 131, 0.44);
+      background: transparent;
+      color: var(--ink);
+      padding: 10px 0 14px;
+      outline: none;
+      text-align: center;
+      font-size: clamp(34px, 6vw, 66px);
+      font-style: italic;
+    }
+    .table-form input::placeholder { color: rgba(245, 232, 199, 0.32); }
+    .window-frame {
+      width: min(420px, 75vw);
+      aspect-ratio: 4 / 5;
+      margin: 32px auto 0;
+      background:
+        linear-gradient(180deg, rgba(10, 6, 3, 0.06), rgba(10, 6, 3, 0.46)),
+        url("assets/img/harbor-view.webp") center / cover no-repeat;
+      border: 1px solid rgba(212, 180, 131, 0.22);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+    }
+    @keyframes steamRise {
+      0% { transform: translateY(0) scale(0.5); opacity: 0.7; }
+      100% { transform: translateY(-320px) scale(1.4); opacity: 0; }
+    }
+    @keyframes softPulse {
+      0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.95); }
+      50% { opacity: 0.9; transform: translate(-50%, -54%) scale(1.12); }
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.55; transform: scale(0.92); }
+      50% { opacity: 1; transform: scale(1.12); }
+    }
+    @keyframes mistDrift {
+      0% { transform: translate3d(-2%, 0, 0); }
+      100% { transform: translate3d(3%, -2%, 0); }
+    }
+    @keyframes bounceSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+    @media (max-width: 720px) {
+      .home-title { letter-spacing: 0.1em; text-indent: 0.1em; }
+      .nav-inner {
+        align-items: flex-start;
+      }
+      .nav-brand {
+        font-size: 15px;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        max-width: 240px;
+        gap: 12px 16px;
+      }
+      .main-content {
+        padding-top: 102px;
+      }
+      .section {
+        min-height: calc(100svh - 102px);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
 </head>
-<body>
-  <header class="top-chrome" aria-label="Room controls">
-    <a href="index.html" class="quiet-brand">spring of zen</a>
-    <button id="roomToneToggle" class="tone-toggle" type="button" aria-pressed="false">room tone</button>
-  </header>
+<body class="min-screen">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
 
-  <main>
-    <section class="arrival-room section-full" aria-labelledby="arrivalTitle">
-      <div class="mist-layer" aria-hidden="true"></div>
-      <div class="grain-layer" aria-hidden="true"></div>
-      <div class="lamp-glow" aria-hidden="true"></div>
-      <div class="arrival-copy">
-        <p id="greeting" class="greeting">The light is still on.</p>
-        <h1 id="arrivalTitle">put the phone down,<br>for a little while.</h1>
-      </div>
-      <a class="scroll-slowly" href="#letter" aria-label="Scroll slowly to the letter">
+  <div id="home-art" class="home-art min-screen">
+    <div class="home-head">
+      <div class="seal">
         <span aria-hidden="true"></span>
-        scroll, slowly
-      </a>
-    </section>
+        <span>SPRING OF ZEN</span>
+      </div>
+      <h1 class="home-title" data-i18n="homeTitle">一盞燈</h1>
+    </div>
 
-    <section id="letter" class="letter-section" aria-labelledby="letterTitle">
-      <h2 id="letterTitle" class="sr-only">The letter</h2>
-      <div class="letter-column">
-        <p data-reveal>You don't have to scroll here.</p>
-        <p data-reveal>There is no feed. No next video. Nothing is loading beneath this page, waiting to catch your thumb.</p>
-        <p data-reveal>Only a lamp, a table, and the sound of your own breath if you let it in.</p>
-        <p data-reveal>Stay as long as you need.<br>Leave when you are ready.</p>
+    <div class="tea-container" aria-hidden="true">
+      <div class="glow-orb"></div>
+      <div class="steam" id="steam-container"></div>
+      <div class="tea-cup"></div>
+    </div>
+
+    <div class="welcome-wrap">
+      <p id="welcome-text" class="lamp-text">世態炎涼，<br>溫茶暖身。</p>
+    </div>
+
+    <button type="button" class="enter-gate" onclick="enterHarbor()">
+      <span data-i18n="enterGate">輕輕推門 · 進入港灣</span>
+      <i aria-hidden="true">⌄</i>
+    </button>
+  </div>
+
+  <div id="main-content" class="main-content hidden">
+    <nav class="place-nav" aria-label="Spring of Zen places">
+      <div class="nav-inner">
+        <button type="button" onclick="backToArt()" class="nav-brand">
+          <i aria-hidden="true">✦</i>
+          <span>SPRING OF ZEN</span>
+        </button>
+        <div class="nav-links">
+          <button type="button" onclick="switchSection(0)" class="nav-link active" id="nav-0"><i aria-hidden="true">✦</i><span data-i18n="navLamp">燈</span></button>
+          <button type="button" onclick="switchSection(1)" class="nav-link" id="nav-1"><i aria-hidden="true">≈</i><span data-i18n="navHarbor">港灣</span></button>
+          <button type="button" onclick="switchSection(2)" class="nav-link" id="nav-2"><i aria-hidden="true">▭</i><span data-i18n="navTable">桌子</span></button>
+          <button type="button" onclick="switchSection(3)" class="nav-link" id="nav-3"><i aria-hidden="true">□</i><span data-i18n="navWindow">窗</span></button>
+        </div>
+      </div>
+    </nav>
+
+    <section id="section-0" class="section active" aria-labelledby="lamp-title">
+      <div class="section-inner">
+        <span class="pill">THE LAMP</span>
+        <p id="lamp-title" class="place-copy" data-i18n-html="lampText">世態炎涼，<br>溫茶暖身。</p>
+        <p class="small-copy" data-i18n="lampSmall">一盞燈，一直為你亮著。</p>
       </div>
     </section>
 
-    <section class="night-dock section-full" aria-labelledby="dockTitle">
-      <div class="dock-veil" aria-hidden="true"></div>
-      <div class="dock-copy" data-reveal>
-        <h2 id="dockTitle">Somewhere a small dock,<br>a single light,<br>water moving without hurry.</h2>
-        <p>This is what the inside of your chest can feel like, if you give it a few minutes.</p>
-        <button class="text-tone-link" type="button" data-tone-link>turn on the room tone</button>
+    <section id="section-1" class="section" aria-labelledby="harbor-title">
+      <div class="section-inner">
+        <span class="pill">THE HARBOR</span>
+        <p id="harbor-title" class="place-copy" data-i18n-html="harborText">水聲很慢，<br>你也可以慢一點。</p>
+        <p class="small-copy" data-i18n="harborSmall">某處有一座小碼頭，一盞燈，水不著急地流動。</p>
+        <button type="button" class="listen-button" id="listen-button" onclick="toggleRoomTone()" data-i18n="listenIdle">聽一會兒</button>
       </div>
     </section>
 
-    <section class="breathing-section section-full" aria-labelledby="breathingTitle">
-      <div class="breathing-wrap" data-reveal>
-        <div class="breathing-circle" aria-hidden="true"></div>
-        <h2 id="breathingTitle" data-breathing-text>breathe in</h2>
-        <p>six seconds, one cycle</p>
-      </div>
-    </section>
-
-    <section class="thought-section section-full" aria-labelledby="thoughtTitle">
-      <blockquote id="thoughtTitle" data-reveal>
-        AI can give us back our time.<br>
-        But it cannot tell us what to do<br>
-        with the silence it returns.
-      </blockquote>
-      <span class="amber-line" aria-hidden="true"></span>
-    </section>
-
-    <section class="one-word-section section-full" aria-labelledby="wordTitle">
-      <div class="word-veil" aria-hidden="true"></div>
-      <div class="word-panel" data-one-word-panel data-reveal>
-        <h2 id="wordTitle">Before you go,<br>leave one word for the room.</h2>
-        <form id="oneWordForm" class="one-word-form">
-          <label class="sr-only" for="oneWordInput">One word for the room</label>
-          <input id="oneWordInput" name="word" maxlength="28" autocomplete="off" placeholder="quiet">
-          <p>press enter to leave it on the table</p>
+    <section id="section-2" class="section" aria-labelledby="table-title">
+      <div class="section-inner">
+        <span class="pill">THE TABLE</span>
+        <p id="table-title" class="place-copy" data-i18n-html="tableText">留一個字，<br>放在桌上。</p>
+        <form class="table-form" id="table-form">
+          <label class="hidden" for="table-word" data-i18n="tableLabel">留一個字</label>
+          <input id="table-word" maxlength="28" placeholder="靜" data-i18n-placeholder="tablePlaceholder">
+          <p class="small-copy" data-i18n="tableHelp">按下 Enter，房間會記得。</p>
         </form>
+        <p class="small-copy hidden" id="table-thanks"></p>
       </div>
     </section>
-  </main>
 
-  <footer class="door-footer">
-    <p>The lamp stays on tonight.<br>Come back whenever the world is too loud.</p>
-    <p>spring of zen · a human harbor</p>
-  </footer>
+    <section id="section-3" class="section" aria-labelledby="window-title">
+      <div class="section-inner">
+        <span class="pill">THE WINDOW</span>
+        <p id="window-title" class="place-copy" data-i18n-html="windowText">還有很多美，<br>只是被我們忘了看見。</p>
+        <div class="window-frame" aria-hidden="true"></div>
+        <p class="small-copy" data-i18n="windowSmall">雨後的安靜街道。倒影不屬於任何人。</p>
+      </div>
+    </section>
+  </div>
 
-  <audio id="roomTone" loop preload="none" src="assets/audio/harbor-roomtone.mp3"></audio>
-  <script src="assets/js/v52-index.js"></script>
+  <audio id="room-tone" src="assets/audio/harbor-roomtone.mp3" preload="none" loop></audio>
+
+  <script>
+    const i18n = {
+      zh: {
+        htmlLang: "zh-Hant",
+        description: "一盞燈，一杯溫茶，一個可以慢下來的港灣。",
+        homeTitle: "一盞燈",
+        welcomes: [
+          "世態炎涼，<br>溫茶暖身。",
+          "一盞燈，一直為你亮著。",
+          "在這裡，時間可以慢一點。"
+        ],
+        enterGate: "輕輕推門 · 進入港灣",
+        navLamp: "燈",
+        navHarbor: "港灣",
+        navTable: "桌子",
+        navWindow: "窗",
+        lampText: "世態炎涼，<br>溫茶暖身。",
+        lampSmall: "一盞燈，一直為你亮著。",
+        harborText: "水聲很慢，<br>你也可以慢一點。",
+        harborSmall: "某處有一座小碼頭，一盞燈，水不著急地流動。",
+        listenIdle: "聽一會兒",
+        listenActive: "正在聽",
+        listenRetry: "再試一次",
+        tableText: "留一個字，<br>放在桌上。",
+        tableLabel: "留一個字",
+        tablePlaceholder: "靜",
+        tableHelp: "按下 Enter，房間會記得。",
+        tableThanks: (word) => `"${word}" 已放在桌上。房間暖了一點。`,
+        windowText: "還有很多美，<br>只是被我們忘了看見。",
+        windowSmall: "雨後的安靜街道。倒影不屬於任何人。"
+      },
+      en: {
+        htmlLang: "en",
+        description: "A lamp, a cup of warm tea, and a harbor where time can slow down.",
+        homeTitle: "A Lamp",
+        welcomes: [
+          "The world is cold,<br>the tea is warm.",
+          "One lamp is still lit for you.",
+          "Here, time can slow down."
+        ],
+        enterGate: "Open the door · Enter the harbor",
+        navLamp: "Lamp",
+        navHarbor: "Harbor",
+        navTable: "Table",
+        navWindow: "Window",
+        lampText: "The world is cold,<br>the tea is warm.",
+        lampSmall: "One lamp is still lit for you.",
+        harborText: "The water is slow,<br>and you can be slow too.",
+        harborSmall: "Somewhere a small dock, a single light, water moving without hurry.",
+        listenIdle: "Listen awhile",
+        listenActive: "Listening",
+        listenRetry: "Try again",
+        tableText: "Leave one word,<br>and place it on the table.",
+        tableLabel: "Leave one word",
+        tablePlaceholder: "quiet",
+        tableHelp: "Press Enter. The room will remember.",
+        tableThanks: (word) => `"${word}" is on the table. The room is a little warmer.`,
+        windowText: "There is still so much beauty,<br>we only forgot to notice.",
+        windowSmall: "A quiet street after rain. No one owns the reflection."
+      }
+    };
+    let currentLang = localStorage.getItem("spring_of_zen_lang") || "zh";
+    let welcomeIndex = 0;
+    let activeSection = 0;
+    let fadeTimer = null;
+
+    function createSteam() {
+      const container = document.getElementById("steam-container");
+      container.innerHTML = "";
+      for (let i = 0; i < 22; i += 1) {
+        const particle = document.createElement("div");
+        const size = 22 + Math.random() * 48;
+        particle.className = "steam-particle";
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size * 1.6}px`;
+        particle.style.left = `${35 + Math.random() * 30}%`;
+        particle.style.animationDuration = `${5.5 + Math.random() * 8}s`;
+        particle.style.animationDelay = `-${Math.random() * 12}s`;
+        particle.style.opacity = 0.35 + Math.random() * 0.45;
+        container.appendChild(particle);
+      }
+    }
+
+    function enterHarbor() {
+      document.getElementById("home-art").classList.add("hidden");
+      document.getElementById("main-content").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      switchSection(Math.floor(Math.random() * 4));
+    }
+
+    function backToArt() {
+      document.getElementById("main-content").classList.add("hidden");
+      document.getElementById("home-art").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function switchSection(n) {
+      activeSection = n;
+      document.querySelectorAll(".section").forEach((section) => {
+        section.classList.remove("active");
+      });
+      const target = document.getElementById(`section-${n}`);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.classList.remove("active");
+      });
+      const nav = document.getElementById(`nav-${n}`);
+      if (nav) nav.classList.add("active");
+    }
+
+    function fadeAudio(audio, target) {
+      clearInterval(fadeTimer);
+      const step = target > audio.volume ? 0.025 : -0.04;
+      fadeTimer = setInterval(() => {
+        const next = Math.max(0, Math.min(target, audio.volume + step));
+        audio.volume = next;
+        if (next === target || next === 0) {
+          clearInterval(fadeTimer);
+          if (next === 0) audio.pause();
+        }
+      }, 80);
+    }
+
+    async function toggleRoomTone() {
+      const audio = document.getElementById("room-tone");
+      const button = document.getElementById("listen-button");
+      const text = i18n[currentLang];
+      if (!audio || !button) return;
+      if (audio.paused) {
+        try {
+          audio.volume = 0;
+          await audio.play();
+          button.textContent = text.listenActive;
+          fadeAudio(audio, 0.3);
+        } catch {
+          button.textContent = text.listenRetry;
+        }
+      } else {
+        button.textContent = text.listenIdle;
+        fadeAudio(audio, 0);
+      }
+    }
+
+    function setupTable() {
+      const form = document.getElementById("table-form");
+      const input = document.getElementById("table-word");
+      const thanks = document.getElementById("table-thanks");
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const word = input.value.trim();
+        if (!word) return;
+        localStorage.setItem("spring_of_zen_table_word", word);
+        form.classList.add("hidden");
+        thanks.classList.remove("hidden");
+        thanks.textContent = i18n[currentLang].tableThanks(word);
+      });
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      const text = i18n[currentLang];
+      localStorage.setItem("spring_of_zen_lang", currentLang);
+      document.documentElement.lang = text.htmlLang;
+      document.querySelector('meta[name="description"]').setAttribute("content", text.description);
+      document.querySelector('meta[property="og:description"]').setAttribute("content", text.description);
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        node.textContent = text[node.dataset.i18n];
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+        node.innerHTML = text[node.dataset.i18nHtml];
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+        node.setAttribute("placeholder", text[node.dataset.i18nPlaceholder]);
+      });
+      const audio = document.getElementById("room-tone");
+      const listenButton = document.getElementById("listen-button");
+      if (listenButton && audio && audio.paused) listenButton.textContent = text.listenIdle;
+      if (listenButton && audio && !audio.paused) listenButton.textContent = text.listenActive;
+      document.getElementById("welcome-text").innerHTML = text.welcomes[welcomeIndex % text.welcomes.length];
+      document.querySelectorAll("[data-lang-button]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.langButton === currentLang);
+      });
+    }
+
+    function setupLanguageSwitch() {
+      document.querySelectorAll("[data-lang-button]").forEach((button) => {
+        button.addEventListener("click", () => applyLanguage(button.dataset.langButton));
+      });
+      applyLanguage(currentLang);
+    }
+
+    window.addEventListener("load", () => {
+      setupLanguageSwitch();
+      createSteam();
+      setupTable();
+      setInterval(() => {
+        welcomeIndex = (welcomeIndex + 1) % i18n[currentLang].welcomes.length;
+        document.getElementById("welcome-text").innerHTML = i18n[currentLang].welcomes[welcomeIndex];
+      }, 11000);
+    });
+  </script>
 </body>
 </html>

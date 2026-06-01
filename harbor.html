@@ -11,19 +11,23 @@
   <link rel="stylesheet" href="assets/css/v52-index.css">
 </head>
 <body class="part-page harbor-page">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
   <header class="top-chrome" aria-label="Room controls">
     <a href="index.html" class="quiet-brand">spring of zen</a>
-    <button id="roomToneToggle" class="tone-toggle" type="button" aria-pressed="false">room tone</button>
+    <button id="roomToneToggle" class="tone-toggle" type="button" aria-pressed="false" data-i18n="roomTone">room tone</button>
   </header>
 
   <main>
     <section class="night-dock part-room" aria-labelledby="harborTitle">
       <div class="dock-veil" aria-hidden="true"></div>
       <div class="dock-copy is-revealed">
-        <p class="part-kicker">The Harbor</p>
-        <h1 id="harborTitle">Somewhere a small dock,<br>a single light,<br>water moving without hurry.</h1>
-        <p>This is what the inside of your chest can feel like, if you give it a few minutes.</p>
-        <button class="text-tone-link" type="button" data-tone-link>turn on the room tone</button>
+        <p class="part-kicker" data-i18n="harborKicker">The Harbor</p>
+        <h1 id="harborTitle" data-i18n-html="harborTitle">Somewhere a small dock,<br>a single light,<br>water moving without hurry.</h1>
+        <p data-i18n="harborLine">This is what the inside of your chest can feel like, if you give it a few minutes.</p>
+        <button class="text-tone-link" type="button" data-tone-link data-i18n="turnOnRoomTone">turn on the room tone</button>
       </div>
     </section>
   </main>
