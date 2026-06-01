@@ -8,6 +8,7 @@ import json
 import mimetypes
 import os
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -118,12 +119,18 @@ def r2_put_object(local_path: Path, object_key: str) -> str:
             "x-amz-date": amz_date,
         },
     )
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            if response.status not in (200, 201):
-                raise RuntimeError(f"Unexpected R2 status {response.status}")
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(error.read().decode("utf-8", errors="replace")) from error
+    for attempt in range(1, 4):
+        try:
+            with urllib.request.urlopen(request, timeout=180) as response:
+                if response.status not in (200, 201):
+                    raise RuntimeError(f"Unexpected R2 status {response.status}")
+            break
+        except urllib.error.HTTPError as error:
+            raise RuntimeError(error.read().decode("utf-8", errors="replace")) from error
+        except urllib.error.URLError:
+            if attempt == 3:
+                raise
+            time.sleep(2 * attempt)
     return f"{public_base_url}/{object_key}"
 
 
