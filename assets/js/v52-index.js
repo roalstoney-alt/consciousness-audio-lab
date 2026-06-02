@@ -3,7 +3,8 @@ const ACCESS_PROTECTED_PAGES = new Set([
   "lamp.html",
   "harbor.html",
   "table.html",
-  "window.html"
+  "window.html",
+  "rooms.html"
 ]);
 let v71DataPromise = null;
 
@@ -185,6 +186,7 @@ const sharedI18n = {
     navHarbor: "harbor",
     navTable: "table",
     navWindow: "window",
+    navRooms: "rooms",
     navDoor: "door",
     roomTone: "room tone",
     listening: "listening",
@@ -232,6 +234,7 @@ const sharedI18n = {
     navHarbor: "港灣",
     navTable: "桌子",
     navWindow: "窗",
+    navRooms: "房間",
     navDoor: "門",
     roomTone: "房間聲",
     listening: "正在聽",
@@ -695,6 +698,31 @@ async function initCuratedWindow() {
   });
 }
 
+function renderRoomCard(room) {
+  const isOpen = room.status === "open";
+  return `
+    <article class="room-card ${isOpen ? "is-open" : "is-future"}" id="${escapeHtml(room.id)}">
+      <p class="memory-type">${isOpen ? "Open Room" : "Future Room"}</p>
+      <h2>${escapeHtml(room.name)}</h2>
+      <dl>
+        <div><dt>Atmosphere</dt><dd>${escapeHtml(room.atmosphere)}</dd></div>
+        <div><dt>Visual Identity</dt><dd>${escapeHtml(room.visual_identity)}</dd></div>
+        <div><dt>Curator</dt><dd>${escapeHtml(room.curator)}</dd></div>
+      </dl>
+      <a class="room-link" href="${escapeHtml(room.href)}">${isOpen ? "Enter Room" : "Open A Room"}</a>
+    </article>
+  `;
+}
+
+async function initRooms() {
+  const root = document.querySelector("[data-room-list]");
+  const principle = document.querySelector("[data-room-principle]");
+  if (!root) return;
+  const data = await loadV71Data();
+  if (principle && data?.rooms?.principle) principle.textContent = data.rooms.principle;
+  root.innerHTML = (data?.rooms?.items || []).map(renderRoomCard).join("");
+}
+
 async function initDoor() {
   const pathsRoot = document.querySelector("[data-door-paths]");
   const form = document.querySelector("[data-door-form]");
@@ -762,6 +790,7 @@ async function bootstrapSpringOfZen() {
   initV71Metrics();
   initMemoryShelf();
   initCuratedWindow();
+  initRooms();
   initDoor();
 }
 

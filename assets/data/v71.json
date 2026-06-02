@@ -34,7 +34,7 @@
         "title": "Night rain recorded in Kyoto",
         "source": "Curator selected",
         "summary": "A short field recording for people who need the room to slow down.",
-        "href": "night-harbor/",
+        "href": "rooms.html#night-harbor",
         "resonance": 18,
         "reflections": 4,
         "kept": 7
@@ -133,6 +133,38 @@
     },
     "message": "You have been noticed.",
     "invitation": "Would you like to open a room?"
+  },
+  "rooms": {
+    "principle": "Each room contains one atmosphere, one visual identity, and one curator.",
+    "items": [
+      {
+        "id": "night-harbor",
+        "name": "Night Harbor",
+        "status": "open",
+        "atmosphere": "A late-night harbor for quiet listening, reflection, and emotional reset.",
+        "visual_identity": "Dark water, one dock light, slow radio warmth.",
+        "curator": "Spring of Zen",
+        "href": "night-harbor/"
+      },
+      {
+        "id": "memory-air",
+        "name": "Memory Air",
+        "status": "future",
+        "atmosphere": "A room for fragile memories, soft photographs, and things people do not want to lose.",
+        "visual_identity": "Pale morning air, paper texture, suspended fragments.",
+        "curator": "Resident creator to be invited",
+        "href": "door.html#open-room"
+      },
+      {
+        "id": "recovery-dynamics-lab",
+        "name": "Recovery Dynamics Lab",
+        "status": "future",
+        "atmosphere": "A practical room for recovery, nervous-system experiments, and returning to daily rhythm.",
+        "visual_identity": "Clean lab light, breath diagrams, measured calm.",
+        "curator": "Resident creator to be invited",
+        "href": "door.html#open-room"
+      }
+    ]
   },
   "door": {
     "paths": [

@@ -975,6 +975,12 @@ h1 {
     radial-gradient(circle at 50% 0%, rgba(216, 168, 96, 0.1), transparent 26rem),
     linear-gradient(180deg, #050505, #11100d 48%, #050505);
 }
+.rooms-page {
+  background:
+    radial-gradient(circle at 14% 24%, rgba(66, 91, 118, 0.22), transparent 22rem),
+    radial-gradient(circle at 82% 10%, rgba(216, 168, 96, 0.12), transparent 24rem),
+    linear-gradient(180deg, #050505, #101116 48%, #050505);
+}
 .v71-shell {
   width: min(1180px, calc(100% - 36px));
   margin: 0 auto;
@@ -1099,7 +1105,8 @@ h1 {
 .memory-grid,
 .window-curated-grid,
 .archive-grid,
-.door-paths {
+.door-paths,
+.room-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
@@ -1108,7 +1115,8 @@ h1 {
 .window-item,
 .archive-card,
 .door-path,
-.resident-panel {
+.resident-panel,
+.room-card {
   border: 1px solid rgba(238, 230, 214, 0.13);
   border-radius: 8px;
   background:
@@ -1116,6 +1124,69 @@ h1 {
     rgba(8, 7, 6, 0.58);
   padding: clamp(18px, 3vw, 26px);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+.room-card {
+  min-height: 520px;
+  display: grid;
+  align-content: end;
+  gap: 18px;
+  overflow: hidden;
+}
+.room-card::before {
+  content: "";
+  display: block;
+  min-height: 180px;
+  margin: calc(clamp(18px, 3vw, 26px) * -1) calc(clamp(18px, 3vw, 26px) * -1) 0;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.1), rgba(5, 5, 5, 0.72)),
+    radial-gradient(circle at 52% 48%, rgba(216, 168, 96, 0.28), transparent 9rem),
+    linear-gradient(135deg, #111923, #050505);
+}
+.room-card.is-future::before {
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.1), rgba(5, 5, 5, 0.76)),
+    radial-gradient(circle at 40% 38%, rgba(238, 230, 214, 0.12), transparent 10rem),
+    linear-gradient(135deg, #181713, #050505);
+}
+.room-card h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.8vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+}
+.room-card dl {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+.room-card dt {
+  color: rgba(216, 168, 96, 0.72);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.room-card dd {
+  margin: 5px 0 0;
+  color: rgba(238, 230, 214, 0.7);
+  line-height: 1.52;
+}
+.room-link {
+  min-height: 42px;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(216, 168, 96, 0.36);
+  border-radius: 999px;
+  background: rgba(216, 168, 96, 0.1);
+  color: var(--ivory);
+  padding: 0 16px;
+  text-decoration: none;
+}
+.room-link:hover {
+  border-color: rgba(216, 168, 96, 0.78);
+  background: rgba(216, 168, 96, 0.16);
 }
 .memory-card.is-pending {
   border-color: rgba(216, 168, 96, 0.32);
