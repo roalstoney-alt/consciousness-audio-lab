@@ -1,0 +1,169 @@
+{
+  "key_system": {
+    "phase": "Closed Beta",
+    "headline": "The Light Is Still On",
+    "subtitle": "This space is currently open to invited guests.",
+    "sample_keys": [
+      {
+        "key": "SOZ-QUIET-001",
+        "status": "active",
+        "note": "Founding circle key"
+      }
+    ],
+    "actions": [
+      {
+        "label": "Enter With A Key",
+        "href": "lamp.html"
+      },
+      {
+        "label": "Request Invitation",
+        "href": "door.html#request-key"
+      },
+      {
+        "label": "Become A Builder",
+        "href": "door.html#become-builder"
+      }
+    ]
+  },
+  "window": {
+    "tagline": "A Window To Something Interesting.",
+    "items": [
+      {
+        "id": "win-202606-001",
+        "type": "A Sound",
+        "title": "Night rain recorded in Kyoto",
+        "source": "Curator selected",
+        "summary": "A short field recording for people who need the room to slow down.",
+        "href": "night-harbor/",
+        "resonance": 18,
+        "reflections": 4,
+        "kept": 7
+      },
+      {
+        "id": "win-202606-002",
+        "type": "A Photograph",
+        "title": "Taken before sunrise",
+        "source": "Visitor #088",
+        "summary": "A low morning frame, kept because it feels like returning.",
+        "href": "lamp.html",
+        "resonance": 12,
+        "reflections": 2,
+        "kept": 5
+      },
+      {
+        "id": "win-202606-003",
+        "type": "A Thought",
+        "title": "The place becomes real when people come back.",
+        "source": "Resident note",
+        "summary": "A reminder that return rate matters more than traffic.",
+        "href": "table.html",
+        "resonance": 9,
+        "reflections": 3,
+        "kept": 4
+      }
+    ]
+  },
+  "memory_shelf": {
+    "review_states": [
+      "Pending Shelf",
+      "Open",
+      "Archive",
+      "Private"
+    ],
+    "items": [
+      {
+        "id": "mem-202606-001",
+        "type": "A Thought",
+        "body": "I finally decided to leave that job.",
+        "visitor": "Visitor #143",
+        "month": "June 2026",
+        "state": "Open",
+        "resonance": 12,
+        "reflections": [
+          "This felt like a door opening.",
+          "I came back to read this twice.",
+          "Quiet courage.",
+          "The room held it."
+        ]
+      },
+      {
+        "id": "mem-202606-002",
+        "type": "A Sound",
+        "body": "Night rain recorded in Kyoto",
+        "visitor": "Visitor #201",
+        "month": "June 2026",
+        "length": "42s",
+        "state": "Archive",
+        "resonance": 18,
+        "reflections": [
+          "Kept this for the walk home.",
+          "Soft enough to stay with."
+        ]
+      },
+      {
+        "id": "mem-202606-003",
+        "type": "A Photograph",
+        "body": "Taken before sunrise",
+        "visitor": "Visitor #088",
+        "month": "June 2026",
+        "state": "Open",
+        "resonance": 7,
+        "reflections": [
+          "This made the morning feel possible."
+        ]
+      }
+    ]
+  },
+  "archive": {
+    "months": [
+      {
+        "month": "June 2026",
+        "contributions": 112,
+        "top_resonant_memory": "I finally decided to leave that job.",
+        "most_shared_sound": "Night rain recorded in Kyoto",
+        "most_kept_photograph": "Taken before sunrise"
+      }
+    ]
+  },
+  "resident_creator": {
+    "thresholds": {
+      "contribution_count": 10,
+      "resonance": 100,
+      "return_visits": 5
+    },
+    "message": "You have been noticed.",
+    "invitation": "Would you like to open a room?"
+  },
+  "door": {
+    "paths": [
+      {
+        "id": "request-key",
+        "title": "Request A Key",
+        "body": "For visitors who want to return quietly before the space becomes public."
+      },
+      {
+        "id": "become-builder",
+        "title": "Become A Builder",
+        "body": "For people who want to help shape the boundary, ritual, and memory of the place."
+      },
+      {
+        "id": "open-room",
+        "title": "Open A Room",
+        "body": "For emerging resident creators noticed through contribution, resonance, and return."
+      }
+    ]
+  },
+  "metrics": {
+    "priority": [
+      "Return Rate",
+      "Dwell Time",
+      "Contribution Rate",
+      "Resonance"
+    ],
+    "avoid_optimizing_for": [
+      "Page Views",
+      "Followers",
+      "Virality"
+    ]
+  }
+}

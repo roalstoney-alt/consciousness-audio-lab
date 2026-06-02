@@ -204,6 +204,47 @@
       line-height: 1.35;
       text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
     }
+    .access-panel {
+      position: relative;
+      z-index: 3;
+      width: min(680px, calc(100% - 34px));
+      margin: clamp(18px, 4vh, 32px) auto 0;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      color: rgba(245, 232, 199, 0.78);
+    }
+    .access-panel p {
+      margin: 0;
+      max-width: 520px;
+      font-size: clamp(15px, 1.9vw, 18px);
+      line-height: 1.65;
+    }
+    .access-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .access-actions a {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border: 1px solid rgba(212, 180, 131, 0.34);
+      border-radius: 999px;
+      background: rgba(31, 26, 20, 0.54);
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .access-actions a:hover {
+      border-color: var(--gold);
+      color: var(--ink);
+    }
     .enter-gate {
       position: fixed;
       left: 50%;
@@ -473,6 +514,15 @@
       <p id="welcome-text" class="lamp-text">世態炎涼，<br>溫茶暖身。</p>
     </div>
 
+    <div class="access-panel" aria-label="Invitation access">
+      <p data-i18n="accessSubtitle">This space is currently open to invited guests.</p>
+      <div class="access-actions">
+        <a href="lamp.html" data-i18n="enterWithKey">Enter With A Key</a>
+        <a href="door.html#request-key" data-i18n="requestInvitation">Request Invitation</a>
+        <a href="door.html#become-builder" data-i18n="becomeBuilder">Become A Builder</a>
+      </div>
+    </div>
+
     <button type="button" class="enter-gate" onclick="enterHarbor()">
       <span data-i18n="enterGate">輕輕推門 · 進入港灣</span>
       <i aria-hidden="true">⌄</i>
@@ -548,6 +598,10 @@
           "在這裡，時間可以慢一點。"
         ],
         enterGate: "輕輕推門 · 進入港灣",
+        accessSubtitle: "這個空間目前只向受邀訪客開放。",
+        enterWithKey: "持鑰匙進入",
+        requestInvitation: "申請邀請",
+        becomeBuilder: "成為共建者",
         navLamp: "燈",
         navHarbor: "港灣",
         navTable: "桌子",
@@ -576,6 +630,10 @@
           "Here, time can slow down."
         ],
         enterGate: "Open the door · Enter the harbor",
+        accessSubtitle: "This space is currently open to invited guests.",
+        enterWithKey: "Enter With A Key",
+        requestInvitation: "Request Invitation",
+        becomeBuilder: "Become A Builder",
         navLamp: "Lamp",
         navHarbor: "Harbor",
         navTable: "Table",

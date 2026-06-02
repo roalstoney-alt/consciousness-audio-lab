@@ -4,13 +4,13 @@
   <title>The Table - Spring of Zen</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Leave one word for the room.">
+  <meta name="description" content="Leave something on the Memory Shelf.">
   <meta property="og:title" content="The Table - Spring of Zen">
-  <meta property="og:description" content="Leave one word for the room.">
+  <meta property="og:description" content="The Table is a Memory Shelf, not a comment section.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="assets/css/v52-index.css">
+  <link rel="stylesheet" href="assets/css/v52-index.css?v=20260602-v71">
 </head>
-<body class="part-page table-page">
+<body class="part-page table-page v71-page">
   <div class="lang-switch" aria-label="Language">
     <button type="button" data-lang-button="en">EN</button>
     <button type="button" data-lang-button="zh">繁中</button>
@@ -19,27 +19,65 @@
     <a href="index.html" class="quiet-brand">spring of zen</a>
     <nav class="part-nav" aria-label="Places">
       <a href="lamp.html" data-i18n="navLamp">lamp</a>
-      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
-      <a href="table.html" data-i18n="navTable">table</a>
       <a href="window.html" data-i18n="navWindow">window</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="door.html" data-i18n="navDoor">door</a>
     </nav>
   </header>
 
-  <main>
-    <section class="one-word-section part-room" aria-labelledby="tableTitle">
-      <div class="word-veil" aria-hidden="true"></div>
-      <div class="word-panel is-revealed" data-one-word-panel>
-        <p class="part-kicker" data-i18n="tableKicker">The Table</p>
-        <h1 id="tableTitle" data-i18n-html="tableTitle">Before you go,<br>leave one word for the room.</h1>
-        <form id="oneWordForm" class="one-word-form">
-          <label class="sr-only" for="oneWordInput" data-i18n="tableLabel">One word for the room</label>
-          <input id="oneWordInput" name="word" maxlength="28" autocomplete="off" placeholder="quiet" data-i18n-placeholder="tablePlaceholder">
-          <p data-i18n="tableHelp">press enter to leave it on the table</p>
-        </form>
+  <main class="v71-shell">
+    <section class="v71-hero" aria-labelledby="tableTitle">
+      <p class="part-kicker" data-i18n="tableKicker">The Table</p>
+      <h1 id="tableTitle">Leave Something On The Table.</h1>
+      <p>The Table is a Memory Shelf. Each contribution is a fragment the room may hold, review, open, archive, or keep private.</p>
+    </section>
+
+    <section class="v71-band" aria-labelledby="submitTitle">
+      <div>
+        <p class="part-kicker">Pending Shelf</p>
+        <h2 id="submitTitle">Leave a memory fragment.</h2>
+        <p class="v71-muted">Not a feed. Not a forum. One honest thing is enough.</p>
       </div>
+      <form class="v71-form" data-memory-form>
+        <label>
+          <span>Type</span>
+          <select name="type">
+            <option>A Thought</option>
+            <option>A Sound</option>
+            <option>A Photograph</option>
+            <option>A Question</option>
+          </select>
+        </label>
+        <label>
+          <span>Memory</span>
+          <textarea name="body" rows="5" maxlength="420" required placeholder="Today I noticed..."></textarea>
+        </label>
+        <label>
+          <span>Name or visitor mark</span>
+          <input name="visitor" maxlength="40" placeholder="Visitor #204">
+        </label>
+        <button type="submit" class="v71-button">Place On Pending Shelf</button>
+        <p class="v71-status" data-memory-status aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="v71-section" aria-labelledby="shelfTitle">
+      <div class="v71-section-head">
+        <p class="part-kicker">Memory Shelf</p>
+        <h2 id="shelfTitle">Open fragments</h2>
+      </div>
+      <div class="memory-grid" data-memory-shelf></div>
+    </section>
+
+    <section class="v71-section" aria-labelledby="archiveTitle">
+      <div class="v71-section-head">
+        <p class="part-kicker">The Archive</p>
+        <h2 id="archiveTitle">The room remembers by month.</h2>
+      </div>
+      <div class="archive-grid" data-memory-archive></div>
     </section>
   </main>
 
-  <script src="assets/js/v52-index.js"></script>
+  <script src="assets/js/v52-index.js?v=20260602-v71"></script>
 </body>
 </html>

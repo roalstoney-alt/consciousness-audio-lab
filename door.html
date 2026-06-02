@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>The Door - Spring of Zen</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Request a key, become a builder, or open a room.">
+  <meta property="og:title" content="The Door - Spring of Zen">
+  <meta property="og:description" content="The Door is the transition from visitor to participant.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="assets/css/v52-index.css?v=20260602-v71">
+</head>
+<body class="part-page door-page v71-page">
+  <div class="lang-switch" aria-label="Language">
+    <button type="button" data-lang-button="en">EN</button>
+    <button type="button" data-lang-button="zh">繁中</button>
+  </div>
+  <header class="top-chrome" aria-label="Room controls">
+    <a href="index.html" class="quiet-brand">spring of zen</a>
+    <nav class="part-nav" aria-label="Places">
+      <a href="lamp.html" data-i18n="navLamp">lamp</a>
+      <a href="window.html" data-i18n="navWindow">window</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="door.html" data-i18n="navDoor">door</a>
+    </nav>
+  </header>
+
+  <main class="v71-shell">
+    <section class="v71-hero" aria-labelledby="doorTitle">
+      <p class="part-kicker">The Door</p>
+      <h1 id="doorTitle">The Light Is Still On.</h1>
+      <p>This space is invitation only while it learns how to become a real digital third place.</p>
+    </section>
+
+    <section class="door-paths" aria-label="Door paths" data-door-paths></section>
+
+    <section class="v71-band" aria-labelledby="doorFormTitle">
+      <div>
+        <p class="part-kicker">Application</p>
+        <h2 id="doorFormTitle">Choose how you want to enter.</h2>
+        <p class="v71-muted">This first version saves your request locally. It gives the site the correct ritual before the backend is connected.</p>
+      </div>
+      <form class="v71-form" data-door-form>
+        <label>
+          <span>Path</span>
+          <select name="path">
+            <option>Request A Key</option>
+            <option>Become A Builder</option>
+            <option>Open A Room</option>
+            <option>Join A Project</option>
+          </select>
+        </label>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" required placeholder="you@example.com">
+        </label>
+        <label>
+          <span>Why this place?</span>
+          <textarea name="note" rows="5" maxlength="560" required placeholder="Tell us what you want to return for."></textarea>
+        </label>
+        <button type="submit" class="v71-button">Leave Request At The Door</button>
+        <p class="v71-status" data-door-status aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="v71-section" aria-labelledby="residentTitle">
+      <div class="v71-section-head">
+        <p class="part-kicker">Resident Creator</p>
+        <h2 id="residentTitle">You have been noticed.</h2>
+      </div>
+      <div class="resident-panel" data-resident-panel></div>
+    </section>
+  </main>
+
+  <script src="assets/js/v52-index.js?v=20260602-v71"></script>
+</body>
+</html>

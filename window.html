@@ -4,13 +4,13 @@
   <title>The Window - Spring of Zen</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A quiet window onto overlooked beauty.">
+  <meta name="description" content="A curated window to something interesting.">
   <meta property="og:title" content="The Window - Spring of Zen">
-  <meta property="og:description" content="What still exists that people have forgotten to notice?">
+  <meta property="og:description" content="A Window To Something Interesting. One to three discoveries, no feed.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="assets/css/v52-index.css">
+  <link rel="stylesheet" href="assets/css/v52-index.css?v=20260602-v71">
 </head>
-<body class="part-page window-page">
+<body class="part-page window-page v71-page">
   <div class="lang-switch" aria-label="Language">
     <button type="button" data-lang-button="en">EN</button>
     <button type="button" data-lang-button="zh">繁中</button>
@@ -19,22 +19,28 @@
     <a href="index.html" class="quiet-brand">spring of zen</a>
     <nav class="part-nav" aria-label="Places">
       <a href="lamp.html" data-i18n="navLamp">lamp</a>
-      <a href="harbor.html" data-i18n="navHarbor">harbor</a>
-      <a href="table.html" data-i18n="navTable">table</a>
       <a href="window.html" data-i18n="navWindow">window</a>
+      <a href="table.html" data-i18n="navTable">table</a>
+      <a href="door.html" data-i18n="navDoor">door</a>
     </nav>
   </header>
 
-  <main>
-    <section class="window-quiet part-room" aria-labelledby="windowTitle">
-      <div class="window-image" aria-hidden="true"></div>
-      <div class="window-copy">
-        <p class="part-kicker" data-i18n="windowKicker">The Window</p>
-        <h1 id="windowTitle" data-i18n="windowTitle">What still exists that people have forgotten to notice?</h1>
-        <p data-i18n="windowLine">A quiet street after rain. No one owns the reflection.</p>
+  <main class="v71-shell">
+    <section class="v71-hero v71-window-hero" aria-labelledby="windowTitle">
+      <p class="part-kicker" data-i18n="windowKicker">The Window</p>
+      <h1 id="windowTitle">A Window To Something Interesting.</h1>
+      <p>No recommendations. No infinite scroll. Today, the room opens only a few windows.</p>
+    </section>
+
+    <section class="v71-section" aria-labelledby="curatedTitle">
+      <div class="v71-section-head">
+        <p class="part-kicker">Curated Discovery</p>
+        <h2 id="curatedTitle">Today the window holds</h2>
       </div>
+      <div class="window-curated-grid" data-window-items></div>
     </section>
   </main>
-  <script src="assets/js/v52-index.js"></script>
+
+  <script src="assets/js/v52-index.js?v=20260602-v71"></script>
 </body>
 </html>

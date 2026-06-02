@@ -128,6 +128,7 @@ const sharedI18n = {
     navHarbor: "harbor",
     navTable: "table",
     navWindow: "window",
+    navDoor: "door",
     roomTone: "room tone",
     listening: "listening",
     lampKicker: "The Lamp",
@@ -174,6 +175,7 @@ const sharedI18n = {
     navHarbor: "港灣",
     navTable: "桌子",
     navWindow: "窗",
+    navDoor: "門",
     roomTone: "房間聲",
     listening: "正在聽",
     lampKicker: "燈",
@@ -419,6 +421,272 @@ async function initEarthLamp() {
   });
 }
 
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[<>&"]/g, (char) => ({
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    "\"": "&quot;"
+  }[char]));
+}
+
+async function loadV71Data() {
+  try {
+    const response = await fetch("assets/data/v71.json", { cache: "no-store" });
+    if (response.ok) return response.json();
+  } catch {
+    /* v7.1 pages keep their static shell if data cannot load. */
+  }
+  return null;
+}
+
+function readJsonStore(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJsonStore(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function currentMonthLabel() {
+  const date = new Date();
+  const month = date.toLocaleString("en", { month: "long" });
+  return `${month} ${date.getFullYear()}`;
+}
+
+function v71VisitorId() {
+  const key = "spring_of_zen_visitor_id";
+  const existing = localStorage.getItem(key);
+  if (existing) return existing;
+  const id = `Visitor #${Math.floor(100 + Math.random() * 900)}`;
+  localStorage.setItem(key, id);
+  return id;
+}
+
+function incrementV71Metric(name, amount = 1) {
+  const metrics = readJsonStore("spring_of_zen_v71_metrics", {
+    contribution_count: 0,
+    resonance: 0,
+    return_visits: 1
+  });
+  metrics[name] = (Number(metrics[name]) || 0) + amount;
+  writeJsonStore("spring_of_zen_v71_metrics", metrics);
+  return metrics;
+}
+
+function renderMemoryCard(item, local = false) {
+  const reflectionCount = Array.isArray(item.reflections) ? item.reflections.length : Number(item.reflections || 0);
+  const meta = [
+    item.visitor,
+    item.length,
+    item.month,
+    item.state || (local ? "Pending Shelf" : "")
+  ].filter(Boolean).map(escapeHtml).join(" · ");
+  return `
+    <article class="memory-card ${local ? "is-pending" : ""}">
+      <p class="memory-type">${escapeHtml(item.type)}</p>
+      <blockquote>${escapeHtml(item.body)}</blockquote>
+      <p class="memory-meta">${meta}</p>
+      <div class="memory-stats">
+        <span>Resonance ${Number(item.resonance) || 0}</span>
+        <span>Reflections ${reflectionCount}</span>
+      </div>
+    </article>
+  `;
+}
+
+function renderArchiveCard(item) {
+  return `
+    <article class="archive-card">
+      <p class="memory-type">${escapeHtml(item.month)}</p>
+      <h3>${Number(item.contributions) || 0} Contributions</h3>
+      <dl>
+        <div><dt>Top Resonant Memory</dt><dd>${escapeHtml(item.top_resonant_memory)}</dd></div>
+        <div><dt>Most Shared Sound</dt><dd>${escapeHtml(item.most_shared_sound)}</dd></div>
+        <div><dt>Most Kept Photograph</dt><dd>${escapeHtml(item.most_kept_photograph)}</dd></div>
+      </dl>
+    </article>
+  `;
+}
+
+async function initMemoryShelf() {
+  const shelf = document.querySelector("[data-memory-shelf]");
+  const archive = document.querySelector("[data-memory-archive]");
+  const form = document.querySelector("[data-memory-form]");
+  if (!shelf && !form) return;
+
+  const data = await loadV71Data();
+  const localItems = readJsonStore("spring_of_zen_pending_memories", []);
+  const openItems = data?.memory_shelf?.items || [];
+  if (shelf) shelf.innerHTML = [...localItems.map((item) => ({ ...item, local: true })), ...openItems]
+    .map((item) => renderMemoryCard(item, item.local))
+    .join("");
+  if (archive) archive.innerHTML = (data?.archive?.months || []).map(renderArchiveCard).join("");
+
+  const status = document.querySelector("[data-memory-status]");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const fields = new FormData(form);
+    const body = String(fields.get("body") || "").trim();
+    if (!body) return;
+    const item = {
+      id: `local-${Date.now()}`,
+      type: String(fields.get("type") || "A Thought"),
+      body,
+      visitor: String(fields.get("visitor") || "").trim() || v71VisitorId(),
+      month: currentMonthLabel(),
+      state: "Pending Shelf",
+      resonance: 0,
+      reflections: []
+    };
+    const next = [item, ...readJsonStore("spring_of_zen_pending_memories", [])];
+    writeJsonStore("spring_of_zen_pending_memories", next);
+    incrementV71Metric("contribution_count");
+    if (status) status.textContent = "Placed on the Pending Shelf. A curator can decide Open, Archive, or Private later.";
+    form.reset();
+    if (shelf) shelf.innerHTML = [...next.map((entry) => ({ ...entry, local: true })), ...openItems]
+      .map((entry) => renderMemoryCard(entry, entry.local))
+      .join("");
+  });
+}
+
+function renderWindowItem(item) {
+  const state = readJsonStore(`spring_of_zen_window_${item.id}`, { resonance: 0, reflections: [], kept: false });
+  const resonance = (Number(item.resonance) || 0) + (Number(state.resonance) || 0);
+  const reflectionCount = (Number(item.reflections) || 0) + (Array.isArray(state.reflections) ? state.reflections.length : 0);
+  const kept = (Number(item.kept) || 0) + (state.kept ? 1 : 0);
+  return `
+    <article class="window-item" data-window-item="${escapeHtml(item.id)}">
+      <p class="memory-type">${escapeHtml(item.type)} · ${escapeHtml(item.source)}</p>
+      <h2>${escapeHtml(item.title)}</h2>
+      <p>${escapeHtml(item.summary)}</p>
+      <div class="memory-stats">
+        <span data-resonance-count>Resonance ${resonance}</span>
+        <span data-reflection-count>Reflections ${reflectionCount}</span>
+        <span data-keep-count>Kept ${kept}</span>
+      </div>
+      <div class="window-actions">
+        <button type="button" data-window-resonate>Resonance</button>
+        <button type="button" data-window-reflect>Reflection</button>
+        <button type="button" data-window-keep>${state.kept ? "Kept" : "Keep"}</button>
+        <a href="${escapeHtml(item.href)}">Open</a>
+      </div>
+      <form class="reflection-form" data-reflection-form hidden>
+        <textarea rows="3" maxlength="260" placeholder="What did this open in you?"></textarea>
+        <button type="submit">Leave Reflection</button>
+      </form>
+    </article>
+  `;
+}
+
+async function initCuratedWindow() {
+  const root = document.querySelector("[data-window-items]");
+  if (!root) return;
+  const data = await loadV71Data();
+  const items = (data?.window?.items || []).slice(0, 3);
+  root.innerHTML = items.map(renderWindowItem).join("");
+  root.addEventListener("click", (event) => {
+    const card = event.target.closest("[data-window-item]");
+    if (!card) return;
+    const id = card.dataset.windowItem;
+    const stateKey = `spring_of_zen_window_${id}`;
+    const state = readJsonStore(stateKey, { resonance: 0, reflections: [], kept: false });
+    let handled = false;
+    if (event.target.matches("[data-window-resonate]")) {
+      state.resonance = (Number(state.resonance) || 0) + 1;
+      incrementV71Metric("resonance");
+      handled = true;
+    }
+    if (event.target.matches("[data-window-keep]")) {
+      state.kept = true;
+      handled = true;
+    }
+    if (event.target.matches("[data-window-reflect]")) {
+      const form = card.querySelector("[data-reflection-form]");
+      if (form) form.hidden = !form.hidden;
+      return;
+    }
+    if (!handled) return;
+    writeJsonStore(stateKey, state);
+    const source = items.find((item) => item.id === id);
+    if (source) card.outerHTML = renderWindowItem(source);
+  });
+  root.addEventListener("submit", (event) => {
+    const form = event.target.closest("[data-reflection-form]");
+    const card = event.target.closest("[data-window-item]");
+    if (!form || !card) return;
+    event.preventDefault();
+    const text = form.querySelector("textarea").value.trim();
+    if (!text) return;
+    const id = card.dataset.windowItem;
+    const stateKey = `spring_of_zen_window_${id}`;
+    const state = readJsonStore(stateKey, { resonance: 0, reflections: [], kept: false });
+    state.reflections = Array.isArray(state.reflections) ? state.reflections : [];
+    state.reflections.push(text);
+    writeJsonStore(stateKey, state);
+    incrementV71Metric("contribution_count");
+    const source = items.find((item) => item.id === id);
+    if (source) card.outerHTML = renderWindowItem(source);
+  });
+}
+
+async function initDoor() {
+  const pathsRoot = document.querySelector("[data-door-paths]");
+  const form = document.querySelector("[data-door-form]");
+  const residentRoot = document.querySelector("[data-resident-panel]");
+  if (!pathsRoot && !form && !residentRoot) return;
+  const data = await loadV71Data();
+  if (pathsRoot) {
+    pathsRoot.innerHTML = (data?.door?.paths || []).map((path) => `
+      <article class="door-path" id="${escapeHtml(path.id)}">
+        <p class="part-kicker">The Door</p>
+        <h2>${escapeHtml(path.title)}</h2>
+        <p>${escapeHtml(path.body)}</p>
+      </article>
+    `).join("");
+  }
+  if (residentRoot) {
+    const thresholds = data?.resident_creator?.thresholds || {};
+    const metrics = readJsonStore("spring_of_zen_v71_metrics", {
+      contribution_count: 0,
+      resonance: 0,
+      return_visits: 1
+    });
+    residentRoot.innerHTML = `
+      <p>${escapeHtml(data?.resident_creator?.message || "You have been noticed.")}</p>
+      <p>${escapeHtml(data?.resident_creator?.invitation || "Would you like to open a room?")}</p>
+      <div class="resident-metrics">
+        <span>Contributions ${Number(metrics.contribution_count) || 0}/${Number(thresholds.contribution_count) || 10}</span>
+        <span>Resonance ${Number(metrics.resonance) || 0}/${Number(thresholds.resonance) || 100}</span>
+        <span>Return Visits ${Number(metrics.return_visits) || 1}/${Number(thresholds.return_visits) || 5}</span>
+      </div>
+    `;
+  }
+  const status = document.querySelector("[data-door-status]");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const request = Object.fromEntries(new FormData(form).entries());
+    request.created_at = new Date().toISOString();
+    const next = [request, ...readJsonStore("spring_of_zen_door_requests", [])];
+    writeJsonStore("spring_of_zen_door_requests", next);
+    if (status) status.textContent = "Request held at the Door. The next version can send this to the curator inbox.";
+    form.reset();
+  });
+}
+
+function initV71Metrics() {
+  const key = "spring_of_zen_last_return_day";
+  const today = new Date().toISOString().slice(0, 10);
+  if (localStorage.getItem(key) !== today) {
+    localStorage.setItem(key, today);
+    incrementV71Metric("return_visits");
+  }
+}
+
 initGreeting();
 initAudioToggle();
 initReveal();
@@ -427,3 +695,7 @@ initOneWordNote();
 initSharedLanguageSwitch();
 initHarborBreath();
 initEarthLamp();
+initV71Metrics();
+initMemoryShelf();
+initCuratedWindow();
+initDoor();
