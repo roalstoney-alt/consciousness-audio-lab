@@ -350,11 +350,15 @@ async function initEarthLamp() {
   if (liveVideo && data.video) liveVideo.src = data.video;
   if (video && data.poster) video.setAttribute("poster", data.poster);
   if (video && data.video) {
-    video.src = data.video;
-    video.addEventListener("canplay", () => {
+    const showAndPlayLampVideo = () => {
       frame?.classList.add("has-video");
       video.play().catch(() => {});
-    }, { once: true });
+    };
+    video.addEventListener("loadedmetadata", showAndPlayLampVideo, { once: true });
+    video.addEventListener("canplay", showAndPlayLampVideo, { once: true });
+    video.src = data.video;
+    video.load();
+    showAndPlayLampVideo();
   }
 
   const intro = document.querySelector("[data-lamp-intro]");
