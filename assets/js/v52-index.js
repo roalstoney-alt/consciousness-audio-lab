@@ -1,3 +1,60 @@
+const ACCESS_STORE_KEY = "spring_of_zen_access";
+const ACCESS_PROTECTED_PAGES = new Set([
+  "lamp.html",
+  "harbor.html",
+  "table.html",
+  "window.html"
+]);
+let v71DataPromise = null;
+
+function normalizeAccessKey(value) {
+  return String(value || "").trim().toUpperCase();
+}
+
+function currentPageName() {
+  const page = window.location.pathname.split("/").filter(Boolean).pop() || "index.html";
+  return page.toLowerCase();
+}
+
+function activeAccessKeys(data) {
+  return new Set((data?.key_system?.sample_keys || [])
+    .filter((entry) => entry.status === "active")
+    .map((entry) => normalizeAccessKey(entry.key)));
+}
+
+function storedAccessKey() {
+  const record = readJsonStore(ACCESS_STORE_KEY, null);
+  return normalizeAccessKey(record?.key);
+}
+
+function renderAccessRequired() {
+  const lang = getSharedLang();
+  const zh = lang === "zh";
+  document.body.classList.add("access-required-page");
+  document.body.innerHTML = `
+    <main class="access-required" aria-labelledby="accessRequiredTitle">
+      <section class="access-required-panel">
+        <p class="part-kicker">${zh ? "邀請制" : "Invitation Only"}</p>
+        <h1 id="accessRequiredTitle">${zh ? "請先用鑰匙進入。" : "Please enter with a key first."}</h1>
+        <p>${zh ? "Spring of Zen 目前只向受邀訪客開放。回到入口，輸入邀請鑰匙後再進入房間。" : "Spring of Zen is currently open to invited guests. Return to the entrance and use an invitation key before entering the rooms."}</p>
+        <div class="access-required-actions">
+          <a href="index.html?access=required">${zh ? "回到入口" : "Back to entrance"}</a>
+          <a href="door.html#request-key">${zh ? "申請邀請" : "Request invitation"}</a>
+        </div>
+      </section>
+    </main>
+  `;
+}
+
+async function initAccessGate() {
+  if (!ACCESS_PROTECTED_PAGES.has(currentPageName())) return true;
+  const data = await loadV71Data();
+  const validKeys = activeAccessKeys(data);
+  if (validKeys.has(storedAccessKey())) return true;
+  renderAccessRequired();
+  return false;
+}
+
 function initGreeting() {
   const greeting = document.getElementById("greeting");
   if (!greeting) return;
@@ -431,6 +488,8 @@ function escapeHtml(value) {
 }
 
 async function loadV71Data() {
+  if (v71DataPromise) return v71DataPromise;
+  v71DataPromise = (async () => {
   try {
     const response = await fetch("assets/data/v71.json", { cache: "no-store" });
     if (response.ok) return response.json();
@@ -438,6 +497,8 @@ async function loadV71Data() {
     /* v7.1 pages keep their static shell if data cannot load. */
   }
   return null;
+  })();
+  return v71DataPromise;
 }
 
 function readJsonStore(key, fallback) {
@@ -687,15 +748,21 @@ function initV71Metrics() {
   }
 }
 
-initGreeting();
-initAudioToggle();
-initReveal();
-initBreathingCircle();
-initOneWordNote();
-initSharedLanguageSwitch();
-initHarborBreath();
-initEarthLamp();
-initV71Metrics();
-initMemoryShelf();
-initCuratedWindow();
-initDoor();
+async function bootstrapSpringOfZen() {
+  const canEnter = await initAccessGate();
+  if (!canEnter) return;
+  initGreeting();
+  initAudioToggle();
+  initReveal();
+  initBreathingCircle();
+  initOneWordNote();
+  initSharedLanguageSwitch();
+  initHarborBreath();
+  initEarthLamp();
+  initV71Metrics();
+  initMemoryShelf();
+  initCuratedWindow();
+  initDoor();
+}
+
+bootstrapSpringOfZen();

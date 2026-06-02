@@ -226,7 +226,8 @@
       justify-content: center;
       gap: 10px;
     }
-    .access-actions a {
+    .access-actions a,
+    .access-actions button {
       min-height: 40px;
       display: inline-flex;
       align-items: center;
@@ -240,10 +241,65 @@
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      cursor: pointer;
     }
-    .access-actions a:hover {
+    .access-actions a:hover,
+    .access-actions button:hover {
       border-color: var(--gold);
       color: var(--ink);
+    }
+    .key-panel {
+      width: min(420px, 100%);
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      padding-top: 2px;
+    }
+    .key-panel[hidden] {
+      display: none;
+    }
+    .key-form {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .key-form input {
+      min-width: 0;
+      flex: 1;
+      min-height: 42px;
+      border: 1px solid rgba(212, 180, 131, 0.28);
+      border-radius: 999px;
+      background: rgba(10, 6, 3, 0.62);
+      color: var(--ink);
+      padding: 0 16px;
+      outline: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .key-form input:focus {
+      border-color: rgba(212, 180, 131, 0.72);
+      box-shadow: 0 0 0 3px rgba(212, 180, 131, 0.12);
+    }
+    .key-form button {
+      min-height: 42px;
+      border: 1px solid rgba(212, 180, 131, 0.42);
+      border-radius: 999px;
+      background: rgba(212, 180, 131, 0.14);
+      color: var(--ink);
+      padding: 0 18px;
+      cursor: pointer;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .key-status {
+      min-height: 18px;
+      margin: 0;
+      color: rgba(245, 232, 199, 0.62);
+      font-size: 12px;
+      line-height: 1.5;
     }
     .enter-gate {
       position: fixed;
@@ -480,6 +536,9 @@
       .section {
         min-height: calc(100svh - 102px);
       }
+      .key-form {
+        flex-direction: column;
+      }
     }
     @media (prefers-reduced-motion: reduce) {
       * {
@@ -517,9 +576,17 @@
     <div class="access-panel" aria-label="Invitation access">
       <p data-i18n="accessSubtitle">This space is currently open to invited guests.</p>
       <div class="access-actions">
-        <a href="lamp.html" data-i18n="enterWithKey">Enter With A Key</a>
+        <button type="button" data-open-key data-i18n="enterWithKey">Enter With A Key</button>
         <a href="door.html#request-key" data-i18n="requestInvitation">Request Invitation</a>
         <a href="door.html#become-builder" data-i18n="becomeBuilder">Become A Builder</a>
+      </div>
+      <div class="key-panel" data-key-panel hidden>
+        <form class="key-form" data-key-form>
+          <label class="hidden" for="gate-key" data-i18n="keyLabel">Invitation key</label>
+          <input id="gate-key" name="key" autocomplete="off" spellcheck="false" data-i18n-placeholder="keyPlaceholder" placeholder="SOZ-QUIET-001">
+          <button type="submit" data-i18n="keySubmit">Enter</button>
+        </form>
+        <p class="key-status" data-key-status aria-live="polite"></p>
       </div>
     </div>
 
@@ -602,6 +669,12 @@
         enterWithKey: "持鑰匙進入",
         requestInvitation: "申請邀請",
         becomeBuilder: "成為共建者",
+        keyLabel: "邀請鑰匙",
+        keyPlaceholder: "輸入邀請鑰匙",
+        keySubmit: "進入",
+        keyInvalid: "這把鑰匙還不能開門。請確認後再試一次。",
+        keyValid: "鑰匙已確認。正在為你開門。",
+        keyLoading: "正在確認鑰匙。",
         navLamp: "燈",
         navHarbor: "港灣",
         navTable: "桌子",
@@ -634,6 +707,12 @@
         enterWithKey: "Enter With A Key",
         requestInvitation: "Request Invitation",
         becomeBuilder: "Become A Builder",
+        keyLabel: "Invitation key",
+        keyPlaceholder: "Enter invitation key",
+        keySubmit: "Enter",
+        keyInvalid: "This key does not open the door yet. Please check it and try again.",
+        keyValid: "Key accepted. Opening the door.",
+        keyLoading: "Checking the key.",
         navLamp: "Lamp",
         navHarbor: "Harbor",
         navTable: "Table",
@@ -677,10 +756,7 @@
     }
 
     function enterHarbor() {
-      document.getElementById("home-art").classList.add("hidden");
-      document.getElementById("main-content").classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-      switchSection(Math.floor(Math.random() * 4));
+      document.querySelector("[data-open-key]")?.click();
     }
 
     function backToArt() {
@@ -785,8 +861,77 @@
       applyLanguage(currentLang);
     }
 
+    async function loadAccessData() {
+      try {
+        const response = await fetch("assets/data/v71.json", { cache: "no-store" });
+        if (response.ok) return response.json();
+      } catch {
+        return null;
+      }
+      return null;
+    }
+
+    function normalizeAccessKey(value) {
+      return String(value || "").trim().toUpperCase();
+    }
+
+    function activeKeysFromData(data) {
+      return new Set((data?.key_system?.sample_keys || [])
+        .filter((entry) => entry.status === "active")
+        .map((entry) => normalizeAccessKey(entry.key)));
+    }
+
+    async function validateAccessKey(value) {
+      const key = normalizeAccessKey(value);
+      if (!key) return false;
+      const data = await loadAccessData();
+      return activeKeysFromData(data).has(key);
+    }
+
+    function rememberAccessKey(key) {
+      localStorage.setItem("spring_of_zen_access", JSON.stringify({
+        key: normalizeAccessKey(key),
+        accepted_at: new Date().toISOString()
+      }));
+    }
+
+    function setupKeyAccess() {
+      const open = document.querySelector("[data-open-key]");
+      const panel = document.querySelector("[data-key-panel]");
+      const form = document.querySelector("[data-key-form]");
+      const input = document.getElementById("gate-key");
+      const status = document.querySelector("[data-key-status]");
+      if (!open || !panel || !form || !input || !status) return;
+
+      const showPanel = () => {
+        panel.hidden = false;
+        status.textContent = "";
+        window.setTimeout(() => input.focus(), 40);
+      };
+
+      open.addEventListener("click", showPanel);
+      if (new URLSearchParams(window.location.search).get("access") === "required") {
+        showPanel();
+        status.textContent = i18n[currentLang].keyInvalid;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const key = input.value;
+        status.textContent = i18n[currentLang].keyLoading;
+        if (await validateAccessKey(key)) {
+          rememberAccessKey(key);
+          status.textContent = i18n[currentLang].keyValid;
+          window.location.href = "lamp.html";
+          return;
+        }
+        status.textContent = i18n[currentLang].keyInvalid;
+      });
+    }
+
     window.addEventListener("load", () => {
       setupLanguageSwitch();
+      setupKeyAccess();
       createSteam();
       setupTable();
       setInterval(() => {

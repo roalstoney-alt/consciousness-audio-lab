@@ -6,6 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A quiet digital room for late-night reflection, memory, and emotional reset.">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    html.checking-access body { visibility: hidden; }
+  </style>
+  <script>
+    document.documentElement.classList.add("checking-access");
+    (async () => {
+      const normalize = (value) => String(value || "").trim().toUpperCase();
+      const stored = (() => {
+        try {
+          return normalize(JSON.parse(localStorage.getItem("spring_of_zen_access"))?.key);
+        } catch {
+          return "";
+        }
+      })();
+      try {
+        const response = await fetch("../assets/data/v71.json", { cache: "no-store" });
+        const data = response.ok ? await response.json() : null;
+        const validKeys = new Set((data?.key_system?.sample_keys || [])
+          .filter((entry) => entry.status === "active")
+          .map((entry) => normalize(entry.key)));
+        if (validKeys.has(stored)) {
+          document.documentElement.classList.remove("checking-access");
+          return;
+        }
+      } catch {
+        /* Keep Night Harbor behind the invitation boundary if the key list cannot load. */
+      }
+      window.location.replace("../index.html?access=required");
+    })();
+  </script>
 </head>
 <body data-page="night-harbor">
   <header class="site-header">
