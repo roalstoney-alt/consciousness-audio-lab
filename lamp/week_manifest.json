@@ -1,0 +1,74 @@
+{
+  "days": [
+    {
+      "date": "2026-06-02",
+      "title": "Mountain Sunrise",
+      "country": "Norway",
+      "category": "Sunrise",
+      "quote": "The mountain opens into morning.",
+      "live_url": "https://www.skylinewebcams.com/en/webcam/norge/nordland/lofoten/reine.html",
+      "video": "lamp/video/244906_medium.mp4",
+      "audio": "lamp/mp3/叶振棠+-+笛子姑娘.mp3"
+    },
+    {
+      "date": "2026-06-03",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    },
+    {
+      "date": "2026-06-04",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    },
+    {
+      "date": "2026-06-05",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    },
+    {
+      "date": "2026-06-06",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    },
+    {
+      "date": "2026-06-07",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    },
+    {
+      "date": "2026-06-08",
+      "title": "",
+      "country": "",
+      "category": "",
+      "quote": "",
+      "live_url": "",
+      "video": "lamp/video/",
+      "audio": "lamp/mp3/"
+    }
+  ]
+}
